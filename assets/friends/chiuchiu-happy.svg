@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t d">
+<title id="t">啾啾（小松鼠）：開心</title>
+<desc id="d">原創角色：橘色小松鼠，大大的捲尾巴、耳朵有小毛尖、戴葉子髮夾，抱著松果。</desc>
+<ellipse cx="100" cy="192" rx="62" ry="6" fill="#1F2A44" opacity=".08"/>
+<path d="M112,182 C168,184 194,134 178,94 C166,62 128,56 122,84 C118,102 144,108 148,126 C152,146 136,164 112,166 Z" fill="#D98C4A" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M122,174 C160,172 180,134 170,102 C162,80 140,76 135,90" fill="none" stroke="#F2C08A" stroke-width="10" stroke-linecap="round"/>
+<ellipse cx="90" cy="152" rx="40" ry="36" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="90" cy="160" rx="24" ry="24" fill="#FFF6EA"/>
+<ellipse cx="72" cy="186" rx="14" ry="8" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><ellipse cx="108" cy="186" rx="14" ry="8" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<polygon points="58,72 60,36 84,58" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><polygon points="96,58 120,36 122,72" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M60,36 l-3,-8 M60,36 l4,-8 M120,36 l-4,-8 M120,36 l3,-8" stroke="#3A2E2A" stroke-width="3" stroke-linecap="round"/>
+<polygon points="64,64 65,46 78,58" fill="#FFC9B5"/><polygon points="102,58 115,46 116,64" fill="#FFC9B5"/>
+<circle cx="90" cy="94" r="38" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<ellipse cx="90" cy="108" rx="21" ry="15" fill="#FFF6EA"/>
+<path d="M122,60 C132,52 142,56 140,64 C134,68 126,66 122,60 Z" fill="#8ED081" stroke="#3A2E2A" stroke-width="3"/>
+<ellipse cx="66" cy="106" rx="7" ry="5" fill="#FFB8A3" opacity=".9"/><ellipse cx="114" cy="106" rx="7" ry="5" fill="#FFB8A3" opacity=".9"/>
+<ellipse cx="90" cy="102" rx="5" ry="3.5" fill="#3A2E2A"/>
+<path d="M67,95 Q77,82 87,95" fill="none" stroke="#3A2E2A" stroke-width="5" stroke-linecap="round"/><path d="M93,95 Q103,82 113,95" fill="none" stroke="#3A2E2A" stroke-width="5" stroke-linecap="round"/>
+<path d="M81,110 Q90,124.4 99,110 Z" fill="#7A2E2E" stroke="#3A2E2A" stroke-width="3.5" stroke-linejoin="round"/><rect x="86.5" y="110" width="7" height="5" rx="1" fill="#fff" stroke="#3A2E2A" stroke-width="1.5"/>
+<ellipse cx="90" cy="132" rx="11" ry="14" fill="#A86B3C" stroke="#3A2E2A" stroke-width="2.5"/><path d="M82,127 Q90,131 98,127 M81,134 Q90,138 99,134 M83,140 Q90,144 97,140" fill="none" stroke="#7A4A26" stroke-width="2.0" stroke-linecap="round"/><path d="M90,118 C94,110 102,110 102,114 C98,118 94,118 90,118 Z" fill="#8ED081" stroke="#3A2E2A" stroke-width="2.0"/><circle cx="77" cy="134" r="7" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="103" cy="134" r="7" fill="#E8A15C" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M30,52 Q30,60 38,60 Q30,60 30,68 Q30,60 22,60 Q30,60 30,52 Z" fill="#FFC845" stroke="#C98E00" stroke-width="1.5" stroke-linejoin="round"/><path d="M176,35 Q176,44 185,44 Q176,44 176,53 Q176,44 167,44 Q176,44 176,35 Z" fill="#FFC845" stroke="#C98E00" stroke-width="1.5" stroke-linejoin="round"/><path d="M40,127.2 C28.8,119.2 35.2,110.4 40,116.8 C44.8,110.4 51.2,119.2 40,127.2 Z" fill="#FF8FA3" stroke="#3A2E2A" stroke-width="2.5" stroke-linejoin="round"/>
+</svg>

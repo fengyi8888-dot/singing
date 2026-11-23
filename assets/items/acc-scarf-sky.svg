@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -24 340 270" role="img" aria-labelledby="t d">
+<title id="t">商品：天空藍小領巾</title>
+<desc id="d">換裝商品，畫在第 4 階 cheer 姿勢的座標上；每隻夥伴一個群組。</desc>
+<ellipse cx="170" cy="228" rx="120" ry="9" fill="#1F2A44" opacity=".08"/>
+<g id="yuan"><path d="M52,170 L78,176 Q66,192 60,202 Q54,186 52,170 Z" fill="#3A93D6" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="58" cy="182" r="2" fill="#fff"/><circle cx="66" cy="186" r="2" fill="#fff"/><circle cx="62" cy="194" r="2" fill="#fff"/><path d="M64,168 C54,164 46,156 50,150 C58,154 62,160 64,168 Z" fill="#3A93D6" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="64" cy="168" r="7" fill="#5AB4F5" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></g>
+<g id="fang"><path d="M188,162 L214,168 Q202,184 196,194 Q190,178 188,162 Z" fill="#3A93D6" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="194" cy="174" r="2" fill="#fff"/><circle cx="202" cy="178" r="2" fill="#fff"/><circle cx="198" cy="186" r="2" fill="#fff"/><path d="M200,160 C190,156 182,148 186,142 C194,146 198,152 200,160 Z" fill="#3A93D6" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="200" cy="160" r="7" fill="#5AB4F5" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></g>
+</svg>

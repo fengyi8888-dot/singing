@@ -1,0 +1,105 @@
+{
+ "version": 1,
+ "viewBox": "0 0 800 560",
+ "layers": [
+  "wallpaper（0,0 起，800×400）",
+  "floor（0,400 起，800×160）",
+  "room（門、窗、櫃子、踢腳板）",
+  "furniture（3 個位置）",
+  "pals（圓圓方方）",
+  "package（門口包裹）",
+  "shelfItems（櫃子上的擺飾）"
+ ],
+ "wallpaper": {
+  "x": 0,
+  "y": 0,
+  "width": 800,
+  "height": 400,
+  "default": "hut/wal-default.svg"
+ },
+ "floor": {
+  "x": 0,
+  "y": 400,
+  "width": 800,
+  "height": 160,
+  "default": "hut/flr-default.svg"
+ },
+ "room": "hut/hut-room.svg",
+ "furnitureSlots": [
+  {
+   "id": "left",
+   "x": 180,
+   "y": 545
+  },
+  {
+   "id": "center",
+   "x": 420,
+   "y": 455
+  },
+  {
+   "id": "right",
+   "x": 660,
+   "y": 545
+  }
+ ],
+ "furnitureNote": "家具圖 viewBox 0 0 200 160，底部中心 (100,150) 對齊 slot 的 (x,y)；寬 200 照原尺寸放",
+ "pals": {
+  "x": 420,
+  "y": 556,
+  "width": 290,
+  "note": "圓圓方方圖（340×270 畫框）底部中心對齊 (x,y)"
+ },
+ "package": {
+  "x": 111,
+  "y": 420,
+  "width": 110,
+  "note": "包裹圖 viewBox 0 0 120 110，底部中心對齊門口地墊"
+ },
+ "shelfSlots": [
+  {
+   "x": 595,
+   "y": 181,
+   "size": 56
+  },
+  {
+   "x": 665,
+   "y": 181,
+   "size": 56
+  },
+  {
+   "x": 735,
+   "y": 181,
+   "size": 56
+  },
+  {
+   "x": 595,
+   "y": 265,
+   "size": 56
+  },
+  {
+   "x": 665,
+   "y": 265,
+   "size": 56
+  },
+  {
+   "x": 735,
+   "y": 265,
+   "size": 56
+  },
+  {
+   "x": 595,
+   "y": 348,
+   "size": 56
+  },
+  {
+   "x": 665,
+   "y": 348,
+   "size": 56
+  },
+  {
+   "x": 735,
+   "y": 348,
+   "size": 56
+  }
+ ]
+}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t d">
+<title id="t">包裹限定擺飾：小盆栽</title>
+<desc id="d">放在小屋櫃子上的擺飾（56×56 格子）。</desc>
+<ellipse cx="32" cy="60" rx="18" ry="3" fill="#1F2A44" opacity=".08"/><path d="M18,40 L46,40 L42,58 L22,58 Z" fill="#FFB8A3" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><rect x="15" y="35" width="34" height="8" rx="3" fill="#FFC9B5" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><path d="M32,36 C24,30 18,22 22,14 C30,16 34,26 32,36 Z" fill="#8ED081" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><path d="M32,36 C40,30 46,22 42,14 C34,16 30,26 32,36 Z" fill="#8ED081" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><path d="M32,36 C29,26 29,16 32,9 C35,16 35,26 32,36 Z" fill="#B5E3A8" stroke="#3A2E2A" stroke-width="3" stroke-linejoin="round"/><circle cx="32" cy="6" r="3.5" fill="#FFC845" stroke="#3A2E2A" stroke-width="2"/>
+</svg>

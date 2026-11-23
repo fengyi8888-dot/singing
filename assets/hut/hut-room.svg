@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-labelledby="t d">
+<title id="t">小屋</title>
+<desc id="d">小屋的門、窗戶、櫃子與門口地墊；壁紙與地板另外疊在下面。</desc>
+<rect x="270" y="66" width="170" height="150" rx="14" fill="#BFE5FA" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M296,170 q14,-16 30,-6 q10,-14 28,-4 q16,0 14,14 Z" fill="#fff"/>
+<circle cx="404" cy="104" r="14" fill="#FFC845"/>
+<path d="M355,66 V216 M270,141 H440" stroke="#3A2E2A" stroke-width="5"/>
+<rect x="258" y="210" width="194" height="14" rx="5" fill="#C98A58" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="46" y="176" width="130" height="226" rx="16" fill="#E2B48A" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="64" y="196" width="94" height="80" rx="8" fill="none" stroke="#C98A58" stroke-width="4"/>
+<rect x="64" y="290" width="94" height="92" rx="8" fill="none" stroke="#C98A58" stroke-width="4"/>
+<circle cx="156" cy="296" r="7" fill="#FFC845" stroke="#3A2E2A" stroke-width="3"/>
+<rect x="550" y="96" width="230" height="278" rx="12" fill="#C98A58" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="560" y="110" width="210" height="73" rx="6" fill="#F1DDB8"/>
+<rect x="560" y="193" width="210" height="73" rx="6" fill="#F1DDB8"/>
+<rect x="560" y="277" width="210" height="73" rx="6" fill="#F1DDB8"/>
+<line x1="630" y1="110" x2="630" y2="350" stroke="#C98A58" stroke-width="5"/>
+<line x1="700" y1="110" x2="700" y2="350" stroke="#C98A58" stroke-width="5"/>
+<rect x="0" y="394" width="800" height="12" fill="#fff" stroke="#3A2E2A" stroke-width="3"/>
+<ellipse cx="111" cy="420" rx="70" ry="12" fill="#FFB8A3" stroke="#3A2E2A" stroke-width="3"/>
+</svg>

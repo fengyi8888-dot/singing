@@ -1,0 +1,1416 @@
+/* ==========================================================================
+   Math Quest — theme.css  (v0.2, Pixel, 2026-11-23；色票 A「天空藍＋蜜桃粉」定案)
+   設計系統 + 通用元件。純 CSS，不載入任何外部字型或 CDN。
+   命名：所有 class 以 .mq- 開頭；狀態用 .is-*；SVG 數學圖用 .mqd-*。
+   完整 class 清單與用法見 projects/math-quest/design/ui-spec.md 第 9 節。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 設計代幣（CSS 變數）
+   -------------------------------------------------------------------------- */
+:root {
+  /* 字型：只用系統字型堆疊 */
+  --mq-font: "PingFang TC", "Heiti TC", "Noto Sans TC", "Noto Sans CJK TC",
+    "Microsoft JhengHei", "Source Han Sans TC", system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+  --mq-font-num: ui-rounded, "SF Pro Rounded", "Arial Rounded MT Bold",
+    var(--mq-font);
+
+  /* 中性色 */
+  --mq-ink: #1F2A44;          /* 主要文字 14.3:1 on white */
+  --mq-ink-muted: #4A5672;    /* 次要文字 7.3:1 */
+  --mq-bg: #F3FAFF;          /* 頁面底色：極淡天空藍 */           /* 頁面底色 */
+  --mq-surface: #FFFFFF;      /* 卡片 */
+  --mq-line: #B4BCCC;         /* 裝飾分隔線（非互動） */
+  --mq-line-strong: #7D879C;  /* 互動元件邊框 ≥3:1 */
+
+  /* 主色：天空藍（孩子最喜歡藍色；色票 A 定案，不另設其他色票） */
+  --mq-sky: #5AB4F5;          /* 明亮天空藍：裝飾、插圖、選取底色、吉祥物項圈 */
+  --mq-sky-light: #A8DCF7;
+  --mq-primary: #1C74C4;      /* 湖水藍：主按鈕底色，白字 4.8:1 */
+  --mq-primary-press: #155FA6;/* 按下／按鈕厚度，也當藍色文字用 6.5:1 */
+  --mq-primary-text: #155FA6;
+  --mq-primary-soft: #EAF6FF;
+  --mq-on-primary: #FFFFFF;
+
+  /* 輔色：蜜桃粉（溫柔、可愛；用於臉頰、次要卡片、吉祥物對話框） */
+  --mq-peach: #FFC9B5;
+  --mq-peach-soft: #FFE8DE;
+  --mq-peach-text: #8A3B1E;   /* 6.5:1 on peach-soft */
+
+  /* 強調色：星星暖陽（只用在星星、獎勵、燈塔） */
+  --mq-sun: #FFC845;
+  --mq-sun-soft: #FFF4D6;
+  --mq-sun-text: #9A5B00;
+  --mq-on-sun: #1F2A44;
+
+  /* 回饋色（一律搭配圖示 + 文字，不只靠顏色；沒有紅色） */
+  --mq-good: #1E7F4F;         /* 答對：綠 + 勾勾 */
+  --mq-good-text: #17663F;
+  --mq-good-soft: #E3F6EC;
+  --mq-cheer: #6C4FC2;        /* 加油（還沒答對）：薰衣草紫 + 愛心星星，取代紅叉 */
+  --mq-cheer-text: #4B3592;
+  --mq-cheer-soft: #EEEAFB;
+
+  /* 夜空（點亮群島、過關背景） */
+  --mq-night: #2F5C9E;
+  --mq-night-deep: #1D3B6E;
+
+  /* 讀題螢光筆（與 Euclid 規格對齊） */
+  --mq-mark-ask: #FFE58A;     /* 黃：題目問什麼 */
+  --mq-mark-known: #BFE3FF;   /* 藍：已知的數 */
+  --mq-mark-base: #C8F0D2;    /* 綠：基準量 */
+  --mq-mark-noise: #E6E8EE;   /* 灰：被圈到的干擾資訊（示範時才出現） */
+
+  /* 數學圖專用（線條 ≥3:1，文字標籤 ≥4.5:1） */
+  --mqd-blue: #1C74C4;        /* 半徑 / 比較量 */
+  --mqd-purple: #7B3FC4;      /* 直徑 */
+  --mqd-orange: #C2410C;      /* 弧 / 要求的量 */
+  --mqd-green: #1E7F4F;       /* 基準量 */
+  --mqd-green-fill: #C8F0D2;
+  --mqd-blue-fill: #BFE3FF;
+  --mqd-sun-fill: #FFE58A;    /* 圓心角 / 塗色格 */
+  --mqd-grid: #C9D0DC;
+  --mqd-grid-major: #8C96AB;
+
+  /* 字級（題目 ≥ 22px） */
+  --mq-fs-xs: 14px;   /* 只用於家長區註解 */
+  --mq-fs-sm: 16px;
+  --mq-fs-md: 18px;   /* 按鈕、說明 */
+  --mq-fs-lg: 22px;   /* 題目本文最小值 */
+  --mq-fs-xl: 26px;   /* 題目本文（平板） */
+  --mq-fs-2xl: 32px;  /* 畫面標題、答案顯示 */
+  --mq-fs-3xl: 40px;  /* 鍵盤數字 */
+  --mq-fs-4xl: 52px;  /* 過關大字 */
+  --mq-lh-tight: 1.25;
+  --mq-lh: 1.6;
+  --mq-lh-question: 1.75;   /* 題目留白多一點，方便圈選 */
+
+  /* 間距（4px 基準） */
+  --mq-sp-1: 4px;
+  --mq-sp-2: 8px;
+  --mq-sp-3: 12px;
+  --mq-sp-4: 16px;
+  --mq-sp-5: 24px;
+  --mq-sp-6: 32px;
+  --mq-sp-7: 48px;
+  --mq-sp-8: 64px;
+
+  /* 觸控尺寸 */
+  --mq-touch-min: 48px;   /* 絕對下限 */
+  --mq-touch: 56px;       /* 一般按鈕 */
+  --mq-touch-lg: 64px;    /* 數字鍵、主按鈕 */
+  --mq-gap-touch: 12px;   /* 按鈕之間 */
+
+  /* 圓角 */
+  --mq-r-sm: 8px;
+  --mq-r-md: 12px;
+  --mq-r-lg: 16px;
+  --mq-r-xl: 24px;
+  --mq-r-pill: 999px;
+
+  /* 陰影 */
+  --mq-shadow-sm: 0 1px 2px rgba(31, 42, 68, .10), 0 1px 1px rgba(31, 42, 68, .06);
+  --mq-shadow-md: 0 4px 12px rgba(31, 42, 68, .12);
+  --mq-shadow-lg: 0 12px 28px rgba(31, 42, 68, .18);
+  --mq-shadow-drag: 0 16px 32px rgba(31, 42, 68, .28);
+  --mq-shadow-press: inset 0 3px 0 rgba(31, 42, 68, .15);
+  --mq-btn-depth: 0 4px 0 var(--mq-primary-press);  /* 按鈕底部「厚度」 */
+
+  /* 動畫時間 */
+  --mq-dur-instant: 80ms;   /* 按下回饋 */
+  --mq-dur-fast: 160ms;     /* hover、選取 */
+  --mq-dur-base: 240ms;     /* 面板滑入 */
+  --mq-dur-slow: 400ms;     /* 答對彈跳 */
+  --mq-dur-celebrate: 900ms;/* 星星逐顆出現（每顆間隔 300ms） */
+  --mq-ease-out: cubic-bezier(.2, .8, .2, 1);
+  --mq-ease-bounce: cubic-bezier(.34, 1.56, .64, 1);
+  --mq-ease-in-out: cubic-bezier(.65, 0, .35, 1);
+
+  /* 版面 */
+  --mq-content-max: 760px;     /* 直式單欄內容寬 */
+  --mq-wide-max: 1200px;       /* 橫式/筆電最大寬 */
+  --mq-topbar-h: 64px;
+  --mq-z-pad: 20;
+  --mq-z-toast: 40;
+  --mq-z-overlay: 60;
+}
+
+/* --------------------------------------------------------------------------
+   2. 基礎
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body.mq-app, .mq-app {
+  margin: 0;
+  font-family: var(--mq-font);
+  font-size: var(--mq-fs-md);
+  line-height: var(--mq-lh);
+  color: var(--mq-ink);
+  background: var(--mq-bg);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* reset 用 :where() 把權重降到 (0,0,1)，不可蓋過 .mq-btn 等元件 class */
+:where(.mq-app) button, :where(.mq-app) input { font: inherit; color: inherit; }
+
+/* 鍵盤操作時清楚的焦點框（觸控不顯示） */
+/* 權重 (0,1,0)：只加外框，不改元件本身的圓角（新版瀏覽器的 outline 會跟著圓角走） */
+:where(.mq-app) :focus-visible {
+  outline: 4px solid var(--mq-sun);
+  outline-offset: 3px;
+}
+
+.mq-num { font-family: var(--mq-font-num); font-variant-numeric: tabular-nums; }
+
+.mq-visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
+.mq-stack { display: flex; flex-direction: column; gap: var(--mq-sp-4); }
+.mq-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--mq-gap-touch); }
+.mq-spacer { flex: 1 1 auto; }
+
+/* --------------------------------------------------------------------------
+   3. 畫面骨架
+   -------------------------------------------------------------------------- */
+.mq-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--mq-sp-5) var(--mq-sp-5);
+  padding-bottom: max(var(--mq-sp-5), env(safe-area-inset-bottom));
+}
+
+.mq-screen--night { background: linear-gradient(180deg, var(--mq-night-deep), var(--mq-night)); color: #fff; }
+
+.mq-topbar {
+  position: sticky; top: 0; z-index: 10;
+  min-height: var(--mq-topbar-h);
+  display: flex; align-items: center; gap: var(--mq-sp-3);
+  padding: var(--mq-sp-2) 0;
+  padding-top: max(var(--mq-sp-2), env(safe-area-inset-top));
+  background: var(--mq-bg);
+}
+.mq-screen--night .mq-topbar { background: transparent; }
+
+.mq-title { font-size: var(--mq-fs-2xl); line-height: var(--mq-lh-tight); font-weight: 800; margin: 0; }
+.mq-subtitle { font-size: var(--mq-fs-md); color: var(--mq-ink-muted); margin: 0; }
+
+.mq-main {
+  width: 100%;
+  max-width: var(--mq-content-max);
+  margin: 0 auto;
+  flex: 1 1 auto;
+  display: flex; flex-direction: column; gap: var(--mq-sp-5);
+}
+
+/* 頂部狀態膠囊（星星、火苗） */
+.mq-stat {
+  display: inline-flex; align-items: center; gap: var(--mq-sp-2);
+  min-height: 44px; padding: 0 var(--mq-sp-4);
+  background: var(--mq-surface); border-radius: var(--mq-r-pill);
+  box-shadow: var(--mq-shadow-sm);
+  font-weight: 700; font-size: var(--mq-fs-md);
+}
+.mq-stat svg { width: 24px; height: 24px; flex: none; }
+
+/* --------------------------------------------------------------------------
+   4. 按鈕
+   -------------------------------------------------------------------------- */
+.mq-btn {
+  -webkit-appearance: none; appearance: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--mq-sp-2);
+  min-height: var(--mq-touch); min-width: var(--mq-touch);
+  padding: 0 var(--mq-sp-5);
+  border: 2px solid transparent;
+  border-radius: var(--mq-r-lg);
+  background: var(--mq-surface);
+  color: var(--mq-ink);
+  font-size: var(--mq-fs-md); font-weight: 700; line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none; -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: transform var(--mq-dur-instant) var(--mq-ease-out),
+    box-shadow var(--mq-dur-instant) var(--mq-ease-out),
+    background-color var(--mq-dur-fast);
+}
+.mq-btn svg { width: 28px; height: 28px; flex: none; }
+.mq-btn:active { transform: translateY(3px); }
+
+.mq-btn--primary {
+  background: var(--mq-primary); color: var(--mq-on-primary);
+  box-shadow: var(--mq-btn-depth);
+}
+.mq-btn--primary:active { box-shadow: 0 1px 0 var(--mq-primary-press); }
+
+.mq-btn--secondary {
+  background: var(--mq-surface); color: var(--mq-primary);
+  border-color: var(--mq-primary);
+  box-shadow: 0 4px 0 var(--mq-primary-soft);
+}
+
+.mq-btn--sun {
+  background: var(--mq-sun); color: var(--mq-on-sun);
+  box-shadow: 0 4px 0 #D9A21E;
+}
+
+/* 「給我提示」：溫和的薰衣草紫外框 + 燈泡 */
+.mq-btn--hint {
+  background: var(--mq-cheer-soft); color: var(--mq-cheer-text);
+  border-color: var(--mq-cheer);
+}
+
+/* 天空藍淺色按鈕（次要但可愛，深藍字 5.4:1） */
+.mq-btn--sky {
+  background: var(--mq-sky); color: #14365F;
+  box-shadow: 0 4px 0 #3A93D6;
+}
+
+.mq-btn--ghost { background: transparent; color: var(--mq-primary); }
+.mq-screen--night .mq-btn--ghost { color: #fff; }
+
+.mq-btn--lg { min-height: 72px; padding: 0 var(--mq-sp-6); font-size: var(--mq-fs-xl); border-radius: var(--mq-r-xl); }
+.mq-btn--hero { min-height: 112px; width: 100%; font-size: var(--mq-fs-2xl); border-radius: var(--mq-r-xl); }
+.mq-btn--block { width: 100%; }
+.mq-btn--icon { padding: 0; width: var(--mq-touch); border-radius: var(--mq-r-pill); }
+.mq-btn--small { min-height: var(--mq-touch-min); min-width: var(--mq-touch-min); padding: 0 var(--mq-sp-4); font-size: var(--mq-fs-sm); }
+
+.mq-btn:disabled, .mq-btn[aria-disabled="true"] {
+  background: #E6E9EF; color: #5C6680; border-color: transparent;
+  box-shadow: none; cursor: default; transform: none;
+}
+
+/* 朗讀按鈕 */
+.mq-speak { flex: none; }
+.mq-speak.is-speaking svg { animation: mq-pulse 1s var(--mq-ease-in-out) infinite; }
+
+/* 家長區入口：按住 2 秒，外圈進度 */
+.mq-hold {
+  position: relative;
+  --mq-hold-progress: 0;  /* JS 由 0 → 1 */
+}
+.mq-hold::after {
+  content: ""; position: absolute; inset: -4px; border-radius: inherit;
+  border: 4px solid var(--mq-primary);
+  clip-path: inset(0 calc((1 - var(--mq-hold-progress)) * 100%) 0 0);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. 卡片
+   -------------------------------------------------------------------------- */
+.mq-card {
+  background: var(--mq-surface);
+  border-radius: var(--mq-r-xl);
+  box-shadow: var(--mq-shadow-md);
+  padding: var(--mq-sp-5);
+}
+.mq-card--flat { box-shadow: none; border: 2px solid var(--mq-line); }
+.mq-card--soft { background: var(--mq-primary-soft); box-shadow: none; }
+.mq-card--peach { background: var(--mq-peach-soft); box-shadow: none; }
+.mq-card--tap { cursor: pointer; transition: transform var(--mq-dur-fast) var(--mq-ease-out); }
+.mq-card--tap:active { transform: scale(.98); }
+.mq-card__title { font-size: var(--mq-fs-xl); font-weight: 800; margin: 0 0 var(--mq-sp-2); line-height: var(--mq-lh-tight); }
+.mq-card__meta { font-size: var(--mq-fs-sm); color: var(--mq-ink-muted); }
+
+/* 首頁主卡「今日航程」 */
+.mq-today {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: var(--mq-sp-5);
+  min-height: 140px;
+}
+
+/* 進度環：style="--mq-ring: 0.66" */
+.mq-ring {
+  --mq-ring: 0;
+  width: 96px; height: 96px; border-radius: 50%;
+  background: conic-gradient(var(--mq-sun) calc(var(--mq-ring) * 360deg), var(--mq-primary-soft) 0);
+  display: grid; place-items: center;
+  font-weight: 800; font-size: var(--mq-fs-lg);
+}
+.mq-ring::before { content: ""; grid-area: 1 / 1; width: 72px; height: 72px; border-radius: 50%; background: var(--mq-surface); }
+.mq-ring > * { grid-area: 1 / 1; position: relative; }
+.mq-ring.is-complete { background: var(--mq-sun); }
+
+/* 進度條 */
+.mq-meter {
+  --mq-meter: 0;
+  height: 16px; border-radius: var(--mq-r-pill); background: var(--mq-primary-soft); overflow: hidden;
+}
+.mq-meter > span {
+  display: block; height: 100%; width: calc(var(--mq-meter) * 100%);
+  background: var(--mq-primary); border-radius: inherit;
+  transition: width var(--mq-dur-slow) var(--mq-ease-out);
+}
+.mq-meter--sun > span { background: var(--mq-sun); }
+
+/* 頁籤（年級） */
+.mq-tabs { display: flex; gap: var(--mq-sp-2); overflow-x: auto; padding: var(--mq-sp-1); scrollbar-width: none; }
+.mq-tab {
+  flex: none; min-height: var(--mq-touch); min-width: 72px; padding: 0 var(--mq-sp-4);
+  border-radius: var(--mq-r-pill); border: 2px solid var(--mq-line-strong);
+  background: var(--mq-surface); font-weight: 700; cursor: pointer;
+}
+.mq-tab[aria-selected="true"], .mq-tab.is-active { background: var(--mq-primary); color: var(--mq-on-primary); border-color: var(--mq-primary); }
+
+/* 小標籤（錯誤類型、狀態） */
+.mq-chip {
+  display: inline-flex; align-items: center; gap: var(--mq-sp-1);
+  min-height: 32px; padding: 0 var(--mq-sp-3);
+  border-radius: var(--mq-r-pill);
+  background: var(--mq-primary-soft); color: var(--mq-primary-press);
+  font-size: var(--mq-fs-sm); font-weight: 700;
+}
+.mq-chip svg { width: 20px; height: 20px; }
+.mq-chip--reading { background: var(--mq-mark-ask); color: var(--mq-ink); }
+.mq-chip--visual { background: var(--mq-mark-known); color: var(--mq-ink); }
+.mq-chip--calc { background: var(--mq-mark-base); color: var(--mq-ink); }
+.mq-chip--concept { background: var(--mq-cheer-soft); color: var(--mq-cheer-text); }
+.mq-chip--unknown { background: #E6E9EF; color: var(--mq-ink-muted); }
+
+/* --------------------------------------------------------------------------
+   6. 群島地圖
+   -------------------------------------------------------------------------- */
+.mq-map {
+  position: relative;
+  border-radius: var(--mq-r-xl);
+  background: radial-gradient(ellipse at 30% 20%, #E6F5FF 0, #BFE5FA 60%, #A8DCF7 100%);
+  overflow: hidden;
+  min-height: 60vh;
+}
+.mq-map svg.mq-map__routes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mq-map__route { fill: none; stroke: var(--mq-primary); stroke-width: 4; stroke-dasharray: 2 12; stroke-linecap: round; }
+
+.mq-island {
+  position: absolute;               /* 由 JS 設 left/top（%） */
+  transform: translate(-50%, -50%);
+  width: 120px; min-height: 120px;
+  display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-1);
+  background: none; border: 0; padding: 0; cursor: pointer;
+  text-align: center;
+}
+.mq-island__art { width: 96px; height: 72px; }
+.mq-island__name {
+  display: block; max-width: 140px;
+  background: var(--mq-surface); border-radius: var(--mq-r-md);
+  padding: 2px var(--mq-sp-2); font-size: var(--mq-fs-sm); font-weight: 700; line-height: 1.3;
+  box-shadow: var(--mq-shadow-sm);
+}
+.mq-island.is-locked .mq-island__art { filter: grayscale(.7) opacity(.55); }
+.mq-island.is-locked .mq-island__name { color: var(--mq-ink-muted); }
+.mq-island.is-next .mq-island__name { outline: 3px solid var(--mq-sun); }
+.mq-island.is-next::before {
+  content: ""; position: absolute; top: -28px; left: 50%; width: 0; height: 0;
+  border: 12px solid transparent; border-top: 16px solid var(--mq-sun-text);
+  transform: translateX(-50%); animation: mq-bob 1.2s var(--mq-ease-in-out) infinite;
+}
+/* 燈塔亮度：.is-open（未亮）/.is-familiar（半亮）/.is-mastered（全亮金色） */
+/* 燈塔亮度由插圖檔決定：.is-open → island-?-dim.svg、.is-familiar → -half、.is-mastered → -full（見 ui-spec 5-B） */
+.mq-island.is-mastered .mq-island__art { animation: mq-breathe 3.2s var(--mq-ease-in-out) infinite; }
+.mq-island__state { font-size: var(--mq-fs-xs); font-weight: 700; color: var(--mq-ink-muted); }
+
+/* 單元簡介底部面板 */
+.mq-sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--mq-z-overlay);
+  max-width: var(--mq-content-max); margin: 0 auto;
+  background: var(--mq-surface);
+  border-radius: var(--mq-r-xl) var(--mq-r-xl) 0 0;
+  box-shadow: var(--mq-shadow-lg);
+  padding: var(--mq-sp-5);
+  padding-bottom: max(var(--mq-sp-5), env(safe-area-inset-bottom));
+  animation: mq-slide-up var(--mq-dur-base) var(--mq-ease-out);
+}
+
+/* --------------------------------------------------------------------------
+   7. 關卡（答題）畫面版面
+   -------------------------------------------------------------------------- */
+.mq-stage {
+  display: grid;
+  grid-template-areas: "q" "work" "pad" "actions";
+  grid-template-rows: auto 1fr auto auto;
+  gap: var(--mq-sp-4);
+  width: 100%; max-width: var(--mq-content-max); margin: 0 auto;
+  flex: 1 1 auto;
+}
+.mq-stage__question { grid-area: q; }
+.mq-stage__work { grid-area: work; display: flex; flex-direction: column; gap: var(--mq-sp-4); min-height: 0; }
+.mq-stage__pad { grid-area: pad; }
+.mq-stage__actions {
+  grid-area: actions;
+  display: flex; gap: var(--mq-gap-touch); align-items: center;
+}
+.mq-stage__actions .mq-btn--primary { margin-left: auto; min-width: 160px; }
+
+/* 進度圓點（6–8 題），不是計時器 */
+.mq-dots { display: flex; gap: var(--mq-sp-2); align-items: center; }
+.mq-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--mq-surface); border: 3px solid var(--mq-line-strong);
+}
+.mq-dot.is-current { width: 24px; height: 24px; border-color: var(--mq-primary); box-shadow: 0 0 0 4px var(--mq-primary-soft); }
+.mq-dot.is-done { background: var(--mq-primary); border-color: var(--mq-primary); }
+.mq-dot.is-half { background: linear-gradient(90deg, var(--mq-primary) 50%, var(--mq-surface) 50%); border-color: var(--mq-primary); }
+/* 注意：答錯的題不用不同顏色的點，一律算 is-done（做完就是做完） */
+
+/* 題目卡 */
+.mq-question {
+  background: var(--mq-surface);
+  border-radius: var(--mq-r-xl);
+  box-shadow: var(--mq-shadow-sm);
+  padding: var(--mq-sp-5);
+  display: grid; grid-template-columns: 1fr auto; gap: var(--mq-sp-3);
+  align-items: start;
+}
+.mq-question__text {
+  font-size: var(--mq-fs-xl);
+  line-height: var(--mq-lh-question);
+  font-weight: 500;
+  margin: 0;
+  word-break: break-word;
+}
+.mq-question__figure { grid-column: 1 / -1; display: flex; justify-content: center; }
+.mq-question__figure svg { width: 100%; max-width: 520px; height: auto; }
+
+/* 題目文字片段（可點選圈選） */
+.mq-seg {
+  display: inline;
+  padding: 2px 3px; margin: 0 -1px;
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-color var(--mq-dur-fast), box-shadow var(--mq-dur-fast);
+}
+.mq-seg.is-tappable { background-image: linear-gradient(transparent 88%, rgba(28, 116, 196, .28) 88%); }
+.mq-seg.is-mark-known { background: var(--mq-mark-known); box-shadow: 0 0 0 2px var(--mqd-blue) inset; }
+.mq-seg.is-mark-ask   { background: var(--mq-mark-ask); box-shadow: 0 0 0 2px var(--mq-sun-text) inset; }
+.mq-seg.is-mark-base  { background: var(--mq-mark-base); box-shadow: 0 0 0 2px var(--mqd-green) inset; }
+.mq-seg.is-mark-noise { background: var(--mq-mark-noise); text-decoration: line-through 2px var(--mq-ink-muted); }
+.mq-seg.is-nudge { animation: mq-glow 0.8s var(--mq-ease-in-out) 2; }   /* 提示：漏圈的片段輕輕閃 */
+.mq-seg.is-reading { outline: 3px solid var(--mq-primary); outline-offset: 1px; } /* 一句一句朗讀中 */
+
+/* 螢光筆選擇列 */
+.mq-markers { display: flex; gap: var(--mq-sp-2); flex-wrap: wrap; }
+.mq-marker {
+  display: inline-flex; align-items: center; gap: var(--mq-sp-2);
+  min-height: var(--mq-touch-min); padding: 0 var(--mq-sp-4);
+  border-radius: var(--mq-r-pill); border: 3px solid transparent; font-weight: 700; cursor: pointer;
+}
+.mq-marker::before { content: ""; width: 20px; height: 20px; border-radius: 50%; background: currentColor; }
+.mq-marker--known { background: var(--mq-mark-known); color: var(--mq-ink); }
+.mq-marker--known::before { background: var(--mqd-blue); }
+.mq-marker--ask { background: var(--mq-mark-ask); color: var(--mq-ink); }
+.mq-marker--ask::before { background: var(--mq-sun-text); }
+.mq-marker--base { background: var(--mq-mark-base); color: var(--mq-ink); }
+.mq-marker--base::before { background: var(--mqd-green); }
+.mq-marker[aria-pressed="true"] { border-color: var(--mq-ink); }
+
+/* 讀題小幫手：步驟條 */
+.mq-helper {
+  display: flex; gap: var(--mq-sp-2);
+  list-style: none; margin: 0; padding: 0;
+}
+.mq-helper__step {
+  flex: 1 1 0;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-height: var(--mq-touch); padding: var(--mq-sp-2) var(--mq-sp-1);
+  border-radius: var(--mq-r-md);
+  background: var(--mq-surface); border: 2px solid var(--mq-line);
+  font-size: var(--mq-fs-sm); font-weight: 700; color: var(--mq-ink-muted);
+  text-align: center; line-height: 1.25;
+}
+.mq-helper__num {
+  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--mq-bg); border: 2px solid var(--mq-line-strong); font-size: var(--mq-fs-sm);
+}
+.mq-helper__step.is-active { border-color: var(--mq-primary); color: var(--mq-ink); background: var(--mq-primary-soft); }
+.mq-helper__step.is-active .mq-helper__num { background: var(--mq-primary); border-color: var(--mq-primary); color: #fff; }
+.mq-helper__step.is-done { color: var(--mq-good-text); border-color: var(--mq-good-soft); background: var(--mq-good-soft); }
+.mq-helper__step.is-done .mq-helper__num { background: var(--mq-good); border-color: var(--mq-good); color: #fff; }
+.mq-helper__step.is-done .mq-helper__num::after { content: "✓"; }
+.mq-helper__step.is-done .mq-helper__num > span { display: none; }
+.mq-helper__step.is-optional { border-style: dashed; }
+.mq-helper__step.is-demo { border-color: var(--mq-cheer); background: var(--mq-cheer-soft); color: var(--mq-cheer-text); }
+.mq-helper__step.is-skipped { opacity: .55; }
+
+.mq-helper__prompt {   /* 每步的指令句，放在步驟條下方 */
+  display: flex; align-items: center; gap: var(--mq-sp-3);
+  font-size: var(--mq-fs-lg); font-weight: 700; margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   8. 作答元件
+   -------------------------------------------------------------------------- */
+
+/* 8.1 choice 選項卡（2–4 個，選了要按確定） */
+.mq-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mq-gap-touch); }
+.mq-choices--stack { grid-template-columns: 1fr; }
+.mq-choices--ops { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mq-choice {
+  -webkit-appearance: none; appearance: none;
+  position: relative;
+  min-height: 80px; padding: var(--mq-sp-3) var(--mq-sp-4);
+  display: flex; align-items: center; justify-content: center; gap: var(--mq-sp-2);
+  background: var(--mq-surface);
+  border: 3px solid var(--mq-line-strong);
+  border-radius: var(--mq-r-lg);
+  box-shadow: 0 4px 0 var(--mq-line);
+  font-size: var(--mq-fs-lg); font-weight: 700; line-height: 1.35; text-align: center;
+  cursor: pointer; touch-action: manipulation;
+  transition: transform var(--mq-dur-instant), border-color var(--mq-dur-fast), background-color var(--mq-dur-fast);
+}
+.mq-choice:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--mq-line); }
+.mq-choice--op { font-size: var(--mq-fs-3xl); min-height: 88px; font-family: var(--mq-font-num); }
+.mq-choice.is-selected, .mq-choice[aria-checked="true"] {
+  border-color: var(--mq-primary); background: var(--mq-primary-soft);
+  box-shadow: 0 4px 0 var(--mq-primary);
+}
+.mq-choice.is-selected::after {   /* 右上角藍色勾勾圓點：不只靠顏色 */
+  content: "✓"; position: absolute; top: -10px; right: -10px;
+  width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--mq-primary); color: #fff; font-size: 18px;
+}
+.mq-choice.is-correct { border-color: var(--mq-good); background: var(--mq-good-soft); box-shadow: 0 4px 0 var(--mq-good); }
+/* 被提示刪掉的錯誤選項：變淡＋虛線，不用紅叉 */
+.mq-choice.is-eliminated, .mq-choice:disabled {
+  opacity: .45; border-style: dashed; box-shadow: none; cursor: default; transform: none;
+}
+
+/* 8.2 tap 點選（SVG 圖上或題目片段） */
+.mq-tap-target { cursor: pointer; }
+svg .mq-tap-target { pointer-events: all; }
+/* SVG 內的可點元素，外加一條透明粗線當觸控熱區（stroke-width ≥ 48） */
+.mqd-hit { fill: none; stroke: transparent; stroke-width: 48; stroke-linecap: round; pointer-events: stroke; cursor: pointer; }
+.mqd-hit-area { fill: transparent; pointer-events: all; cursor: pointer; }
+.mq-tap-target.is-tapped, .is-tapped > .mqd-vis { stroke-width: 8; filter: drop-shadow(0 0 4px var(--mq-sun)); }
+.mq-tap-ring { fill: none; stroke: var(--mq-sun-text); stroke-width: 4; stroke-dasharray: 6 4; } /* 圈選數字的彩色圈 */
+
+/* 8.3 drag 拖拉 */
+.mq-drag-tray {
+  display: flex; flex-wrap: wrap; gap: var(--mq-gap-touch);
+  padding: var(--mq-sp-3); border-radius: var(--mq-r-lg); background: var(--mq-primary-soft);
+  min-height: 88px;
+}
+.mq-draggable {
+  min-width: var(--mq-touch-lg); min-height: var(--mq-touch-lg);
+  padding: 0 var(--mq-sp-4);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--mq-surface); border: 3px solid var(--mq-primary);
+  border-radius: var(--mq-r-md); box-shadow: var(--mq-shadow-sm);
+  font-size: var(--mq-fs-xl); font-weight: 800; font-family: var(--mq-font-num);
+  cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none;
+  transition: transform var(--mq-dur-fast) var(--mq-ease-out), box-shadow var(--mq-dur-fast);
+}
+.mq-draggable.is-dragging { transform: scale(1.1); box-shadow: var(--mq-shadow-drag); cursor: grabbing; z-index: 30; position: relative; }
+.mq-draggable.is-snapping { transition: transform var(--mq-dur-base) var(--mq-ease-bounce); }
+.mq-draggable.is-placeholder { opacity: .3; border-style: dashed; box-shadow: none; }
+
+.mq-dropzone {
+  min-width: 80px; min-height: 72px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 3px dashed var(--mq-line-strong); border-radius: var(--mq-r-md);
+  background: var(--mq-surface); color: var(--mq-ink-muted);
+  font-size: var(--mq-fs-md);
+  transition: background-color var(--mq-dur-fast), border-color var(--mq-dur-fast);
+}
+.mq-dropzone.is-over { border-color: var(--mq-primary); background: var(--mq-primary-soft); border-style: solid; }
+.mq-dropzone.is-filled { border-style: solid; border-color: var(--mq-primary); }
+.mq-equation { display: flex; flex-wrap: wrap; align-items: center; gap: var(--mq-sp-2); font-size: var(--mq-fs-2xl); font-weight: 800; }
+
+/* 幾何畫布（旋轉／切割） */
+.mq-canvas {
+  position: relative; background: var(--mq-surface); border-radius: var(--mq-r-xl);
+  box-shadow: var(--mq-shadow-sm); touch-action: none; overflow: hidden;
+}
+.mq-canvas svg { display: block; width: 100%; height: auto; }
+.mq-canvas__tools { position: absolute; right: var(--mq-sp-3); bottom: var(--mq-sp-3); display: flex; gap: var(--mq-sp-2); }
+
+/* 8.4 答案顯示框（numpad / fraction-pad 共用） */
+.mq-answer {
+  display: flex; align-items: center; justify-content: center; gap: var(--mq-sp-3);
+  min-height: 88px; padding: var(--mq-sp-3) var(--mq-sp-5);
+  background: var(--mq-surface); border-radius: var(--mq-r-lg);
+  border: 3px solid var(--mq-line-strong);
+  font-size: var(--mq-fs-2xl); font-weight: 800;
+}
+.mq-answer__value { font-family: var(--mq-font-num); font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; }
+.mq-answer__value:empty::before { content: "？"; color: var(--mq-line-strong); }
+.mq-answer__unit { font-size: var(--mq-fs-lg); color: var(--mq-ink-muted); font-weight: 700; }
+.mq-answer.is-focus, .mq-slot.is-focus { border-color: var(--mq-primary); box-shadow: 0 0 0 4px var(--mq-primary-soft); }
+.mq-caret { display: inline-block; width: 3px; height: 1.1em; background: var(--mq-primary); vertical-align: -0.15em; animation: mq-blink 1s steps(1) infinite; }
+
+/* 8.5 numpad 數字鍵盤：固定在畫面下方，每鍵 ≥ 64×64 */
+.mq-numpad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(var(--mq-touch-lg), 1fr));
+  grid-auto-rows: minmax(var(--mq-touch-lg), 72px);
+  gap: var(--mq-sp-2);
+  padding: var(--mq-sp-3);
+  background: #E8EEF5;
+  border-radius: var(--mq-r-xl);
+  user-select: none; -webkit-user-select: none;
+}
+/* 建議排列（4 欄）：
+   7 8 9 ⌫
+   4 5 6 清除
+   1 2 3 分數
+   0 0 . 帶分數 */
+.mq-key {
+  -webkit-appearance: none; appearance: none;
+  display: flex; align-items: center; justify-content: center;
+  min-width: var(--mq-touch-lg); min-height: var(--mq-touch-lg);
+  border: 2px solid var(--mq-line-strong);
+  border-radius: var(--mq-r-md);
+  background: var(--mq-surface);
+  box-shadow: 0 3px 0 var(--mq-line);
+  font-family: var(--mq-font-num); font-size: var(--mq-fs-3xl); font-weight: 700; line-height: 1;
+  color: var(--mq-ink);
+  cursor: pointer; touch-action: manipulation;
+  transition: transform var(--mq-dur-instant), background-color var(--mq-dur-instant);
+}
+.mq-key:active, .mq-key.is-pressed { transform: translateY(2px); box-shadow: 0 1px 0 var(--mq-line); background: var(--mq-primary-soft); }
+.mq-key--fn { font-family: var(--mq-font); font-size: var(--mq-fs-md); background: #F7F9FC; }
+.mq-key--fn svg { width: 32px; height: 32px; }
+.mq-key--wide { grid-column: span 2; }
+.mq-key--tall { grid-row: span 2; }
+.mq-key[aria-pressed="true"] { background: var(--mq-primary); color: #fff; border-color: var(--mq-primary); }
+.mq-key:disabled { opacity: .4; box-shadow: none; }
+
+/* 8.6 fraction-pad 分數輸入：分子／分母兩格，帶分數三格 */
+.mq-frac {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto;
+  column-gap: var(--mq-sp-2);
+  align-items: center; justify-items: center;
+}
+.mq-frac__whole { grid-column: 1; grid-row: 1 / 4; }
+.mq-frac__num   { grid-column: 2; grid-row: 1; }
+.mq-frac__bar   { grid-column: 2; grid-row: 2; width: 100%; min-width: 72px; height: 4px; border-radius: 2px; background: var(--mq-ink); margin: 6px 0; }
+.mq-frac__den   { grid-column: 2; grid-row: 3; }
+.mq-frac:not(.mq-frac--mixed) .mq-frac__whole { display: none; }
+.mq-slot {
+  -webkit-appearance: none; appearance: none;
+  min-width: 72px; min-height: var(--mq-touch-lg); padding: 0 var(--mq-sp-3);
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 3px dashed var(--mq-line-strong); border-radius: var(--mq-r-md);
+  background: var(--mq-surface);
+  font-family: var(--mq-font-num); font-size: var(--mq-fs-2xl); font-weight: 800;
+  cursor: pointer;
+}
+.mq-slot.is-filled { border-style: solid; }
+.mq-slot.is-focus { border-style: solid; background: var(--mq-primary-soft); }
+.mq-frac__whole.mq-slot { min-height: calc(var(--mq-touch-lg) * 1.4); }
+/* 切換整數／分數／帶分數的分段按鈕 */
+.mq-seg-toggle { display: inline-flex; border-radius: var(--mq-r-pill); background: #E8EEF5; padding: 4px; gap: 4px; }
+.mq-seg-toggle > button {
+  min-height: var(--mq-touch-min); padding: 0 var(--mq-sp-4); border: 0; border-radius: var(--mq-r-pill);
+  background: transparent; font-weight: 700; cursor: pointer;
+}
+.mq-seg-toggle > button[aria-pressed="true"] { background: var(--mq-surface); box-shadow: var(--mq-shadow-sm); color: var(--mq-primary-press); }
+
+/* --------------------------------------------------------------------------
+   9. 回饋：toast（答對）、面板（再想想／解說）、過關
+   -------------------------------------------------------------------------- */
+.mq-toast {
+  position: fixed; left: 50%; top: calc(var(--mq-topbar-h) + var(--mq-sp-4)); z-index: var(--mq-z-toast);
+  transform: translateX(-50%);
+  display: flex; align-items: center; gap: var(--mq-sp-3);
+  min-height: 72px; max-width: min(92vw, 560px);
+  padding: var(--mq-sp-3) var(--mq-sp-5) var(--mq-sp-3) var(--mq-sp-3);
+  border-radius: var(--mq-r-pill);
+  box-shadow: var(--mq-shadow-lg);
+  font-size: var(--mq-fs-xl); font-weight: 800;
+  animation: mq-toast-in var(--mq-dur-slow) var(--mq-ease-bounce) both;
+}
+.mq-toast__icon { width: 48px; height: 48px; flex: none; border-radius: 50%; display: grid; place-items: center; }
+.mq-toast__icon svg { width: 32px; height: 32px; }
+.mq-toast__sub { display: block; font-size: var(--mq-fs-md); font-weight: 600; }
+.mq-toast--correct { background: var(--mq-good-soft); color: var(--mq-good-text); border: 3px solid var(--mq-good); }
+.mq-toast--correct .mq-toast__icon { background: var(--mq-good); color: #fff; }
+.mq-toast--retry { background: var(--mq-cheer-soft); color: var(--mq-cheer-text); border: 3px solid var(--mq-cheer); }
+.mq-toast--retry .mq-toast__icon { background: var(--mq-cheer); color: #fff; }
+.mq-toast--info { background: var(--mq-surface); color: var(--mq-ink); border: 3px solid var(--mq-primary); }
+.mq-toast--info .mq-toast__icon { background: var(--mq-primary-soft); color: var(--mq-primary); }
+.mq-toast--reward { background: var(--mq-sun-soft); color: var(--mq-ink); border: 3px solid var(--mq-sun); }
+.mq-toast--reward .mq-toast__icon { background: var(--mq-sun); color: var(--mq-ink); }
+.mq-toast.is-leaving { animation: mq-toast-out var(--mq-dur-base) var(--mq-ease-out) both; }
+
+/* 底部回饋面板：再想想（提示）、一起做（分步驟解說） */
+.mq-feedback {
+  display: grid; grid-template-columns: 120px 1fr; gap: var(--mq-sp-4); align-items: start;
+  padding: var(--mq-sp-4) var(--mq-sp-5);
+  border-radius: var(--mq-r-xl);
+  animation: mq-slide-up var(--mq-dur-base) var(--mq-ease-out) both;
+}
+.mq-feedback__mascot { width: 120px; height: auto; }   /* 圓圓＆方方是寬圖（340×270） */
+.mq-feedback__title { margin: 0 0 var(--mq-sp-1); font-size: var(--mq-fs-xl); font-weight: 800; line-height: var(--mq-lh-tight); }
+.mq-feedback__body { margin: 0; font-size: var(--mq-fs-lg); line-height: var(--mq-lh); }
+.mq-feedback__actions { grid-column: 1 / -1; display: flex; gap: var(--mq-gap-touch); justify-content: flex-end; flex-wrap: wrap; }
+.mq-feedback--retry { background: var(--mq-cheer-soft); color: var(--mq-cheer-text); border: 2px solid var(--mq-cheer); }
+.mq-feedback--retry .mq-feedback__body { color: var(--mq-ink); }
+.mq-feedback--solve { background: var(--mq-surface); border: 2px solid var(--mq-primary); }
+.mq-feedback--correct { background: var(--mq-good-soft); color: var(--mq-good-text); border: 2px solid var(--mq-good); }
+
+/* 分步驟解說：每按「下一步」多一列 */
+.mq-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--mq-sp-3); counter-reset: mq-step; }
+.mq-steps > li {
+  counter-increment: mq-step;
+  display: grid; grid-template-columns: 40px 1fr; gap: var(--mq-sp-3); align-items: start;
+  font-size: var(--mq-fs-lg); line-height: var(--mq-lh);
+  animation: mq-fade-in var(--mq-dur-base) var(--mq-ease-out) both;
+}
+.mq-steps > li::before {
+  content: counter(mq-step); width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--mq-primary); color: #fff; font-weight: 800;
+}
+.mq-steps > li.is-current::before { background: var(--mq-sun); color: var(--mq-ink); }
+
+/* 過關結算 */
+.mq-result {
+  display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-5); text-align: center;
+  padding: var(--mq-sp-6) var(--mq-sp-5);
+}
+.mq-result__title { font-size: var(--mq-fs-4xl); font-weight: 900; margin: 0; line-height: 1.1; }
+.mq-stars { display: flex; gap: var(--mq-sp-4); justify-content: center; }
+.mq-star { width: 88px; height: 88px; color: rgba(255, 255, 255, .25); }
+.mq-star svg { width: 100%; height: 100%; display: block; }
+.mq-stars--light .mq-star { color: #D7DDE8; }
+.mq-star.is-on { color: var(--mq-sun); animation: mq-star-pop var(--mq-dur-slow) var(--mq-ease-bounce) both; }
+.mq-star.is-on:nth-child(2) { animation-delay: 300ms; }
+.mq-star.is-on:nth-child(3) { animation-delay: 600ms; }
+.mq-highlight-line { font-size: var(--mq-fs-xl); font-weight: 700; margin: 0; }
+
+.mq-overlay {
+  position: fixed; inset: 0; z-index: var(--mq-z-overlay);
+  background: rgba(29, 59, 110, .72);
+  display: grid; place-items: center; padding: var(--mq-sp-5);
+  animation: mq-fade-in var(--mq-dur-base) both;
+}
+.mq-overlay > .mq-card { width: 100%; max-width: 560px; }
+
+/* 彩帶 .mq-confetti：見第 16 節「答對時刻」 */
+
+/* --------------------------------------------------------------------------
+   10. 吉祥物動作
+   -------------------------------------------------------------------------- */
+.mq-mascot { display: block; width: 160px; height: auto; transform-origin: 50% 90%; }
+.mq-mascot--sm { width: 104px; }   /* 答題畫面角落 */
+.mq-mascot--lg { width: 300px; }   /* 首頁、結算 */
+.mq-mascot.is-wobble { animation: mq-wobble 1.6s var(--mq-ease-in-out) infinite; } /* 第 1 階：走路搖搖晃晃 */
+.mq-mascot.is-hop { animation: mq-hop var(--mq-dur-slow) var(--mq-ease-bounce); }
+.mq-mascot.is-tilt { animation: mq-tilt 700ms var(--mq-ease-in-out) both; } /* 答錯：歪頭 */
+.mq-mascot.is-dance { animation: mq-dance 1.2s var(--mq-ease-in-out) 2; }
+.mq-mascot.is-idle { animation: mq-breathe 3.2s var(--mq-ease-in-out) infinite; }
+
+.mq-bubble {
+  position: relative; display: inline-block;
+  background: var(--mq-surface); border-radius: var(--mq-r-lg);
+  padding: var(--mq-sp-3) var(--mq-sp-4);
+  box-shadow: var(--mq-shadow-sm);
+  font-size: var(--mq-fs-lg); font-weight: 700;
+}
+.mq-bubble--cheer { background: var(--mq-peach-soft); color: var(--mq-peach-text); }
+.mq-bubble--cheer::after { border-top-color: var(--mq-peach-soft) !important; }
+.mq-bubble::after {
+  content: ""; position: absolute; left: 24px; bottom: -12px;
+  border: 12px solid transparent; border-top-color: var(--mq-surface); border-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   11. 錯題本（修補工坊）、成就
+   -------------------------------------------------------------------------- */
+.mq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--mq-sp-4); }
+
+.mq-mistake { display: flex; flex-direction: column; gap: var(--mq-sp-3); }
+.mq-mistake.is-due { border: 3px solid var(--mq-sun); }
+.mq-repair { display: flex; gap: 6px; }          /* 修補進度 4 格 */
+.mq-repair > i { flex: 1; height: 14px; border-radius: var(--mq-r-pill); background: var(--mq-primary-soft); border: 2px solid var(--mq-line); }
+.mq-repair > i.is-on { background: var(--mq-primary); border-color: var(--mq-primary); }
+
+.mq-badge {
+  display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-2);
+  padding: var(--mq-sp-4) var(--mq-sp-3); text-align: center;
+  background: var(--mq-surface); border-radius: var(--mq-r-xl); box-shadow: var(--mq-shadow-sm);
+  min-height: 160px; border: 0; cursor: pointer;
+}
+.mq-badge__art { width: 80px; height: 80px; }
+.mq-badge__name { font-weight: 800; font-size: var(--mq-fs-md); line-height: 1.3; }
+.mq-badge__how { font-size: var(--mq-fs-sm); color: var(--mq-ink-muted); line-height: 1.4; }
+.mq-badge.is-locked .mq-badge__art { filter: grayscale(1) brightness(1.6) contrast(.4); opacity: .7; }
+.mq-badge.is-new { box-shadow: 0 0 0 4px var(--mq-sun), var(--mq-shadow-md); animation: mq-star-pop var(--mq-dur-slow) var(--mq-ease-bounce); }
+
+.mq-house {
+  border-radius: var(--mq-r-xl);
+  background: linear-gradient(180deg, #FFF8E8 0 70%, #F1DDB8 70% 100%);
+  min-height: 280px; position: relative; overflow: hidden; padding: var(--mq-sp-5);
+}
+.mq-shelf { display: flex; gap: var(--mq-sp-3); flex-wrap: wrap; border-bottom: 8px solid #C79A5B; padding-bottom: var(--mq-sp-2); }
+.mq-shelf > * { width: 56px; height: 56px; }
+
+/* --------------------------------------------------------------------------
+   12. 家長區
+   -------------------------------------------------------------------------- */
+.mq-parent { --mq-fs-body: var(--mq-fs-md); background: #F7F8FA; }
+.mq-parent .mq-main { max-width: 960px; }
+.mq-pin { display: flex; gap: var(--mq-sp-4); justify-content: center; }
+.mq-pin__dot { width: 24px; height: 24px; border-radius: 50%; border: 3px solid var(--mq-line-strong); }
+.mq-pin__dot.is-filled { background: var(--mq-ink); border-color: var(--mq-ink); }
+.mq-pin.is-retry { animation: mq-shake 400ms var(--mq-ease-in-out); }  /* PIN 不正確：輕輕晃，不用紅色 */
+.mq-pin-pad { max-width: 360px; margin: 0 auto; grid-template-columns: repeat(3, 1fr); }
+
+.mq-report-section { break-inside: avoid; }
+.mq-report-section > h2 { font-size: var(--mq-fs-xl); margin: 0 0 var(--mq-sp-3); }
+.mq-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--mq-sp-3); }
+.mq-kpi { background: var(--mq-surface); border-radius: var(--mq-r-lg); padding: var(--mq-sp-4); box-shadow: var(--mq-shadow-sm); }
+.mq-kpi__value { display: block; font-size: var(--mq-fs-2xl); font-weight: 800; font-family: var(--mq-font-num); }
+.mq-kpi__label { font-size: var(--mq-fs-sm); color: var(--mq-ink-muted); }
+
+.mq-table { width: 100%; border-collapse: collapse; font-size: var(--mq-fs-sm); background: var(--mq-surface); border-radius: var(--mq-r-lg); overflow: hidden; }
+.mq-table th, .mq-table td { padding: var(--mq-sp-3); text-align: left; border-bottom: 1px solid var(--mq-line); }
+.mq-table th { background: var(--mq-primary-soft); font-weight: 700; }
+.mq-table td.mq-num, .mq-table th.mq-num { text-align: right; }
+.mq-delta--up { color: var(--mq-good-text); font-weight: 700; }
+.mq-delta--up::before { content: "▲ "; }
+.mq-delta--flat { color: var(--mq-ink-muted); }
+
+.mq-bars { display: flex; align-items: flex-end; gap: var(--mq-sp-2); height: 140px; padding-top: var(--mq-sp-4); }
+.mq-bars > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; font-size: var(--mq-fs-xs); color: var(--mq-ink-muted); }
+.mq-bars > div > span { display: block; width: 100%; max-width: 40px; min-height: 2px; height: calc(var(--v, 0) * 100%); background: var(--mq-primary); border-radius: 6px 6px 0 0; }
+
+.mq-note { font-size: var(--mq-fs-xs); color: var(--mq-ink-muted); line-height: 1.5; }
+.mq-callout { border-left: 6px solid var(--mq-sun); background: var(--mq-sun-soft); padding: var(--mq-sp-3) var(--mq-sp-4); border-radius: 0 var(--mq-r-md) var(--mq-r-md) 0; }
+
+@media print {
+  .mq-parent { background: #fff; }
+  .mq-topbar, .mq-btn, .mq-noprint { display: none !important; }
+  .mq-card, .mq-kpi { box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* --------------------------------------------------------------------------
+   13. 數學圖（SVG）共用樣式 — 規格見 ui-spec.md 第 8 節
+   -------------------------------------------------------------------------- */
+.mqd { font-family: var(--mq-font); color: var(--mq-ink); }
+.mqd text { font-family: var(--mq-font-num), var(--mq-font); fill: var(--mq-ink); }
+.mqd-label { font-size: 22px; font-weight: 700; paint-order: stroke; stroke: #fff; stroke-width: 6px; stroke-linejoin: round; }
+.mqd-label--sm { font-size: 18px; }
+.mqd-unknown { font-size: 26px; font-weight: 900; fill: var(--mqd-orange) !important; }
+.mqd-outline { fill: none; stroke: var(--mq-ink); stroke-width: 3; stroke-linejoin: round; }
+.mqd-fill { fill: var(--mq-primary-soft); }
+
+/* 線段圖 */
+.mqd-bar { stroke: var(--mq-ink); stroke-width: 2.5; }
+.mqd-bar--base { fill: var(--mqd-green-fill); }
+.mqd-bar--compare { fill: var(--mqd-blue-fill); }
+.mqd-bar--ask { fill: #fff; stroke: var(--mqd-orange); stroke-dasharray: 8 6; stroke-width: 3; }
+.mqd-tick { stroke: var(--mq-ink); stroke-width: 2; }
+.mqd-brace { fill: none; stroke: var(--mq-ink); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.mqd-brace--ask { stroke: var(--mqd-orange); }
+.mqd-name--base { fill: var(--mqd-green) !important; }
+.mqd-name--compare { fill: var(--mqd-blue) !important; }
+.mqd-handle { fill: var(--mq-surface); stroke: var(--mq-primary); stroke-width: 4; cursor: ew-resize; }
+
+/* 圓與扇形 */
+.mqd-circle { fill: var(--mq-primary-soft); stroke: var(--mq-ink); stroke-width: 3; }
+.mqd-sector { fill: var(--mqd-sun-fill); stroke: var(--mq-ink); stroke-width: 3; stroke-linejoin: round; }
+.mqd-center { fill: var(--mq-ink); }
+.mqd-radius { stroke: var(--mqd-blue); stroke-width: 5; stroke-linecap: round; }
+.mqd-diameter { stroke: var(--mqd-purple); stroke-width: 5; stroke-linecap: round; }
+.mqd-arc { fill: none; stroke: var(--mqd-orange); stroke-width: 6; stroke-linecap: round; }
+.mqd-angle { fill: rgba(255, 200, 69, .55); stroke: var(--mq-sun-text); stroke-width: 2; }
+.mqd-plain .mqd-radius, .mqd-plain .mqd-diameter { stroke: var(--mq-ink); stroke-width: 3; } /* Level ≥3：不用顏色提示 */
+.mqd-plain .mqd-arc { stroke: var(--mq-ink); stroke-width: 3; }
+
+/* 方格圖 */
+.mqd-grid-line { stroke: var(--mqd-grid); stroke-width: 1.5; }
+.mqd-grid-major { stroke: var(--mqd-grid-major); stroke-width: 2; }
+.mqd-cell { fill: transparent; }
+.mqd-cell.is-filled { fill: var(--mqd-sun-fill); }
+.mqd-cell.is-half { fill: var(--mqd-blue-fill); }
+.mqd-shape { fill: rgba(191, 227, 255, .6); stroke: var(--mqd-blue); stroke-width: 4; stroke-linejoin: round; }
+.mqd-vertex { fill: var(--mq-surface); stroke: var(--mq-ink); stroke-width: 3; }
+.mqd-snap { fill: var(--mq-primary); opacity: 0; transition: opacity var(--mq-dur-fast); }
+.mqd-snap.is-near { opacity: .9; }
+.mqd-cutline { stroke: var(--mqd-orange); stroke-width: 4; stroke-dasharray: 10 6; stroke-linecap: round; }
+.mqd-right-angle { fill: none; stroke: var(--mq-ink); stroke-width: 2; }
+
+/* 動畫：圓「剪開拉直」、扇形描邊 */
+.mqd-trace { stroke-dasharray: var(--len, 1000); stroke-dashoffset: var(--len, 1000); animation: mq-draw 1.2s var(--mq-ease-in-out) forwards; }
+
+/* --------------------------------------------------------------------------
+   14. 關鍵影格
+   -------------------------------------------------------------------------- */
+@keyframes mq-hop { 0%, 100% { transform: translateY(0) } 40% { transform: translateY(-18px) scale(1.04, .96) } 70% { transform: translateY(0) scale(.98, 1.02) } }
+@keyframes mq-tilt { 0% { transform: rotate(0) } 35% { transform: rotate(-10deg) } 65% { transform: rotate(-8deg) } 100% { transform: rotate(0) } }
+@keyframes mq-dance { 0%, 100% { transform: rotate(0) } 25% { transform: rotate(-8deg) translateY(-6px) } 75% { transform: rotate(8deg) translateY(-6px) } }
+@keyframes mq-breathe { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.025) } }
+@keyframes mq-bob { 0%, 100% { transform: translate(-50%, 0) } 50% { transform: translate(-50%, 6px) } }
+@keyframes mq-pulse { 0%, 100% { opacity: 1 } 50% { opacity: .4 } }
+@keyframes mq-blink { 50% { opacity: 0 } }
+@keyframes mq-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 200, 69, 0) } 50% { box-shadow: 0 0 0 6px rgba(255, 200, 69, .9); background: var(--mq-sun-soft) } }
+@keyframes mq-fade-in { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }
+@keyframes mq-slide-up { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: none } }
+@keyframes mq-toast-in { from { opacity: 0; transform: translate(-50%, -16px) scale(.9) } to { opacity: 1; transform: translate(-50%, 0) scale(1) } }
+@keyframes mq-toast-out { to { opacity: 0; transform: translate(-50%, -12px) } }
+@keyframes mq-star-pop { 0% { transform: scale(0) rotate(-30deg); opacity: 0 } 70% { transform: scale(1.2) rotate(6deg); opacity: 1 } 100% { transform: scale(1) rotate(0) } }
+@keyframes mq-fall { to { transform: translateY(110vh) rotate(540deg); } }
+@keyframes mq-draw { to { stroke-dashoffset: 0 } }
+@keyframes mq-wobble { 0%, 100% { transform: rotate(-3deg) } 50% { transform: rotate(3deg) translateY(-2px) } }
+@keyframes mq-shake { 20%, 60% { transform: translateX(-8px) } 40%, 80% { transform: translateX(8px) } }
+
+/* 降低動態：保留狀態變化，移除位移與彈跳 */
+@media (prefers-reduced-motion: reduce) {
+  .mq-app *, .mq-app *::before, .mq-app *::after {
+    animation-duration: 1ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important; scroll-behavior: auto !important;
+  }
+  /* 彩帶、星星飛行等：在第 16 節改成淡入的靜態圖 */
+}
+
+/* --------------------------------------------------------------------------
+   15. 響應式版面
+   主要：平板直式 744–834 寬。其次：平板橫式 1024–1194 寬、筆電 ≥1280。
+   -------------------------------------------------------------------------- */
+
+/* 手機（相容即可）< 600 */
+@media (max-width: 599px) {
+  :root { --mq-fs-xl: 22px; --mq-fs-2xl: 28px; --mq-fs-3xl: 32px; --mq-fs-4xl: 40px; }
+  .mq-screen { padding: 0 var(--mq-sp-3) var(--mq-sp-3); }
+  .mq-choices--ops { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mq-helper__step { font-size: 14px; }
+  .mq-helper__label { display: none; }   /* 手機只顯示圓圈編號，目前步驟另有 .mq-helper__prompt */
+  .mq-star { width: 64px; height: 64px; }
+  .mq-feedback { grid-template-columns: 88px 1fr; }
+  .mq-feedback__mascot { width: 88px; }
+}
+
+/* 平板直式（主要） 600–1023：單欄，鍵盤貼底 */
+@media (min-width: 600px) and (max-width: 1023px) and (orientation: portrait) {
+  .mq-stage__pad { position: sticky; bottom: 0; z-index: var(--mq-z-pad); }
+}
+
+/* 橫式（平板橫式與筆電）：題目左、作答右 */
+@media (min-width: 900px) and (orientation: landscape), (min-width: 1024px) {
+  .mq-main { max-width: var(--mq-wide-max); }
+  .mq-stage {
+    max-width: var(--mq-wide-max);
+    grid-template-areas: "q work" "q pad" "actions actions";
+    grid-template-columns: minmax(0, 1.15fr) minmax(360px, 1fr);
+    grid-template-rows: auto 1fr auto;
+    column-gap: var(--mq-sp-5);
+  }
+  .mq-stage__question { align-self: start; position: sticky; top: calc(var(--mq-topbar-h) + var(--mq-sp-2)); }
+  .mq-stage__pad { align-self: end; }
+  .mq-home { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mq-sp-5); align-items: center; }
+  .mq-map { min-height: calc(100vh - 160px); }
+  .mq-sheet { left: auto; right: var(--mq-sp-5); bottom: var(--mq-sp-5); width: 420px; border-radius: var(--mq-r-xl); }
+}
+
+/* 橫式但高度很矮（平板橫式 ≤ 820 高）：壓縮鍵盤高度，避免捲動 */
+@media (orientation: landscape) and (max-height: 820px) {
+  .mq-numpad { grid-auto-rows: minmax(var(--mq-touch-lg), 64px); padding: var(--mq-sp-2); }
+  .mq-question { padding: var(--mq-sp-4); }
+  .mq-question__figure svg { max-height: 300px; }
+}
+
+/* 筆電：滑鼠 hover 補強（觸控裝置不依賴 hover） */
+@media (hover: hover) and (pointer: fine) {
+  .mq-btn:hover:not(:disabled) { filter: brightness(1.05); }
+  .mq-choice:hover:not(:disabled):not(.is-selected) { border-color: var(--mq-primary); }
+  .mq-key:hover { background: var(--mq-primary-soft); }
+}
+
+/* --------------------------------------------------------------------------
+   16. 答對時刻（v0.3）：擊掌、星星飛行、三種慶祝等級
+   規格與 HTML 結構見 ui-spec.md 第 7.1 節。只用 CSS 與 SVG，沒有圖片。
+   符合 CSP（style-src 'self'）：每片彩帶的位置都寫在這裡，JS 只需要用
+   element.style.setProperty() 設定星星飛行的起點和終點。
+   -------------------------------------------------------------------------- */
+:root {
+  --mq-dur-fly: 700ms;              /* 星星飛行 */
+  --mq-dur-streak: 1800ms;          /* 「連續 3 題！」從彈出到淡出 */
+  --mq-dur-confetti-small: 1200ms;
+  --mq-dur-confetti-big: 2600ms;
+  --mq-dur-bigcheer: 2600ms;        /* 大型慶祝卡片停留 */
+}
+
+/* 16.1 星星飛行：JS 設定 --from-x/--from-y/--to-x/--to-y（px，視窗座標，指星星中心） */
+.mq-flystar {
+  --from-x: 50vw; --from-y: 50vh; --to-x: 90vw; --to-y: 32px; --arc: 90px;
+  position: fixed; left: 0; top: 0; z-index: var(--mq-z-toast);
+  width: 44px; height: 44px; margin: -22px 0 0 -22px;
+  color: var(--mq-sun); pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(255, 200, 69, .9));
+  animation: mq-fly var(--mq-dur-fly) var(--mq-ease-in-out) forwards;
+}
+.mq-flystar svg { width: 100%; height: 100%; display: block; }
+@keyframes mq-fly {
+  0%   { transform: translate(var(--from-x), var(--from-y)) scale(.3); opacity: 0; }
+  15%  { transform: translate(var(--from-x), var(--from-y)) scale(1.35); opacity: 1; }
+  55%  { transform: translate(calc((var(--from-x) + var(--to-x)) / 2), calc((var(--from-y) + var(--to-y)) / 2 - var(--arc))) scale(1.1) rotate(200deg); opacity: 1; }
+  100% { transform: translate(var(--to-x), var(--to-y)) scale(.55) rotate(360deg); opacity: .9; }
+}
+/* 星星計數跳一下：星星落地時 JS 加 .is-bump（animationend 後移除，下次才能再跳） */
+.mq-stat.is-bump { animation: mq-bump 450ms var(--mq-ease-bounce); }
+.mq-stat.is-bump svg { animation: mq-spin 450ms var(--mq-ease-out); }
+@keyframes mq-bump { 0% { transform: scale(1) } 40% { transform: scale(1.25) } 100% { transform: scale(1) } }
+@keyframes mq-spin { from { transform: rotate(-90deg) scale(.6) } to { transform: none } }
+
+/* 16.2 擊掌：.mq-highfive.is-ready → 點下去 → .is-clapped */
+.mq-highfive { display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-2); }
+.mq-highfive__btn {
+  -webkit-appearance: none; appearance: none;
+  position: relative; display: block;
+  width: min(80vw, 340px); aspect-ratio: 340 / 270;   /* 整張圖都是按鈕，觸控目標遠大於 48px */
+  padding: 0; border: 0; background: none; border-radius: var(--mq-r-xl);
+  cursor: pointer; touch-action: manipulation;
+}
+.mq-highfive__art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity var(--mq-dur-fast); }
+.mq-highfive__art--clap { opacity: 0; }
+.mq-highfive.is-ready .mq-highfive__art--ready { animation: mq-hf-wait 1.2s var(--mq-ease-in-out) infinite; transform-origin: 50% 100%; }
+.mq-highfive.is-clapped .mq-highfive__art--ready { opacity: 0; }
+.mq-highfive.is-clapped .mq-highfive__art--clap { opacity: 1; animation: mq-hf-clap 500ms var(--mq-ease-bounce); transform-origin: 50% 100%; }
+/* 手掌碰在一起的位置（圖的水平中線、上方 27%）冒出閃光 */
+.mq-highfive__btn::after {
+  content: ""; position: absolute; left: 50%; top: 27%; width: 96px; height: 96px; margin: -48px 0 0 -48px;
+  border-radius: 50%; background: radial-gradient(circle, #FFF4D6 0 30%, rgba(255, 200, 69, .8) 45%, rgba(255, 200, 69, 0) 70%);
+  opacity: 0; transform: scale(.2); pointer-events: none;
+}
+.mq-highfive.is-clapped .mq-highfive__btn::after { animation: mq-hf-flash 520ms var(--mq-ease-out) forwards; }
+.mq-highfive__prompt {
+  margin: 0; padding: var(--mq-sp-2) var(--mq-sp-5);
+  background: var(--mq-sun); color: var(--mq-on-sun); border-radius: var(--mq-r-pill);
+  font-size: var(--mq-fs-lg); font-weight: 900; box-shadow: 0 4px 0 #D9A21E;
+}
+.mq-highfive.is-ready .mq-highfive__prompt { animation: mq-hf-prompt 1.2s var(--mq-ease-in-out) infinite; }
+.mq-highfive.is-clapped .mq-highfive__prompt { background: var(--mq-good-soft); color: var(--mq-good-text); box-shadow: none; }
+
+/* 迸出的愛心與星星：<span class="mq-highfive__burst"><i></i> × 8</span> */
+.mq-highfive__burst { position: absolute; left: 50%; top: 27%; width: 0; height: 0; pointer-events: none; }
+.mq-highfive__burst > i {
+  --dx: 0px; --dy: -90px; --d: 0ms;
+  position: absolute; left: 0; top: 0; width: 22px; height: 22px; opacity: 0;
+  transform: translate(-50%, -50%);
+}
+.mq-highfive__burst > i:nth-child(odd) {   /* 愛心 */
+  background: #FF8FA3;
+  clip-path: path("M11 20 C3 14 0 9 2.5 5 C5 1.5 9 2 11 5.5 C13 2 17 1.5 19.5 5 C22 9 19 14 11 20 Z");
+}
+.mq-highfive__burst > i:nth-child(even) {  /* 四角星 */
+  background: var(--mq-sun);
+  clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+}
+.mq-highfive__burst > i:nth-child(1) { --dx: -110px; --dy: -40px; }
+.mq-highfive__burst > i:nth-child(2) { --dx: -80px;  --dy: -95px; --d: 40ms; }
+.mq-highfive__burst > i:nth-child(3) { --dx: -30px;  --dy: -125px; --d: 80ms; }
+.mq-highfive__burst > i:nth-child(4) { --dx: 30px;   --dy: -120px; --d: 20ms; }
+.mq-highfive__burst > i:nth-child(5) { --dx: 85px;   --dy: -95px; --d: 60ms; }
+.mq-highfive__burst > i:nth-child(6) { --dx: 115px;  --dy: -35px; --d: 100ms; }
+.mq-highfive__burst > i:nth-child(7) { --dx: -135px; --dy: 20px; --d: 120ms; }
+.mq-highfive__burst > i:nth-child(8) { --dx: 135px;  --dy: 25px; --d: 140ms; }
+.mq-highfive.is-clapped .mq-highfive__burst > i { animation: mq-hf-burst 900ms var(--mq-ease-out) var(--d) forwards; }
+
+@keyframes mq-hf-wait { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-6px) } }
+@keyframes mq-hf-clap { 0% { transform: scale(.94) } 45% { transform: scale(1.06) } 100% { transform: scale(1) } }
+@keyframes mq-hf-flash { 0% { opacity: .95; transform: scale(.2) } 100% { opacity: 0; transform: scale(2.2) } }
+@keyframes mq-hf-prompt { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.08) } }
+@keyframes mq-hf-burst {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(.3); }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.1); }
+}
+
+/* 16.3 慶祝圖層：<div class="mq-celebrate-layer" aria-hidden="true">…</div>（不擋觸控） */
+.mq-celebrate-layer {
+  position: fixed; inset: 0; z-index: var(--mq-z-toast); pointer-events: none;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  padding-top: 18vh; overflow: hidden;
+}
+
+/* 等級 2：「連續 3 題！」徽章 */
+.mq-streak-badge {
+  position: relative;
+  display: inline-flex; align-items: center; gap: var(--mq-sp-3);
+  padding: var(--mq-sp-3) var(--mq-sp-6) var(--mq-sp-3) var(--mq-sp-4);
+  background: var(--mq-sun); color: var(--mq-on-sun);
+  border: 4px solid #fff; border-radius: var(--mq-r-pill); box-shadow: var(--mq-shadow-lg);
+  font-size: var(--mq-fs-2xl); font-weight: 900; line-height: 1.1; white-space: nowrap;
+  animation: mq-life-pop var(--mq-dur-streak) var(--mq-ease-out) both;
+}
+.mq-streak-badge svg { width: 44px; height: 44px; color: #fff; flex: none; }
+.mq-streak-badge .mq-confetti { inset: -60px -40px; overflow: visible; }
+
+/* 等級 3：難題一次就答對 */
+.mq-bigcheer {
+  display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-3);
+  padding: var(--mq-sp-5) var(--mq-sp-6);
+  background: var(--mq-surface); border-radius: var(--mq-r-xl); box-shadow: var(--mq-shadow-lg);
+  border: 4px solid var(--mq-sun);
+  animation: mq-life-pop var(--mq-dur-bigcheer) var(--mq-ease-out) both;
+}
+.mq-bigcheer__title { margin: 0; font-size: var(--mq-fs-2xl); font-weight: 900; color: var(--mq-primary-text); text-align: center; }
+.mq-bigcheer .mq-mascot { width: 240px; }
+
+@keyframes mq-life-pop {
+  0%   { opacity: 0; transform: scale(.3); }
+  12%  { opacity: 1; transform: scale(1.12); }
+  20%  { transform: scale(1); }
+  85%  { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: translateY(-16px) scale(.96); }
+}
+
+/* 16.4 彩帶：<div class="mq-confetti [--small|--big]" aria-hidden="true"><i></i> × N</div>
+   --small 用 16 片（從徽章往外噴）；--big 用 40 片（全螢幕落下）；不加修飾＝在容器內落下（結算畫面） */
+.mq-confetti { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.mq-confetti--big { position: fixed; z-index: var(--mq-z-toast); }
+.mq-confetti > i {
+  --x: 50; --y: 20; --dx: 0px; --dy: -120px; --r: 360deg; --d: 0ms; --d2: 0ms; --x2: 0;
+  position: absolute; top: -16px; left: calc((var(--x) + var(--x2)) * 1%);
+  width: 10px; height: 14px; border-radius: 3px; background: var(--mq-sun);
+  animation: mq-confetti-fall var(--mq-dur-confetti-big) linear calc(var(--d) + var(--d2)) both;
+}
+.mq-confetti--small > i {
+  left: 50%; top: 50%;
+  animation: mq-confetti-burst var(--mq-dur-confetti-small) var(--mq-ease-out) calc(var(--d) + var(--d2)) both;
+}
+/* 形狀 */
+.mq-confetti > i:nth-child(4n)   { width: 10px; height: 10px; border-radius: 50%; }
+.mq-confetti > i:nth-child(4n+2) { width: 6px; height: 18px; border-radius: 3px; }
+.mq-confetti > i:nth-child(4n+3) { width: 11px; height: 11px; border-radius: 2px; }
+/* 顏色：暖陽、天空藍、蜜桃、淡綠、淡紫（都是主題色票） */
+.mq-confetti > i:nth-child(5n+1) { background: var(--mq-sun); }
+.mq-confetti > i:nth-child(5n+2) { background: var(--mq-sky); }
+.mq-confetti > i:nth-child(5n+3) { background: var(--mq-peach); }
+.mq-confetti > i:nth-child(5n+4) { background: #8ED081; }
+.mq-confetti > i:nth-child(5n)   { background: #C9B8F5; }
+/* 位置、方向、旋轉、延遲（10 組輪替） */
+.mq-confetti > i:nth-child(10n+1) { --x: 6;  --y: 12; --dx: -150px; --dy: -120px; --r: 420deg;  --d: 0ms; }
+.mq-confetti > i:nth-child(10n+2) { --x: 16; --y: 30; --dx: -100px; --dy: -170px; --r: -360deg; --d: 120ms; }
+.mq-confetti > i:nth-child(10n+3) { --x: 26; --y: 8;  --dx: -60px;  --dy: -90px;  --r: 520deg;  --d: 60ms; }
+.mq-confetti > i:nth-child(10n+4) { --x: 36; --y: 44; --dx: -30px;  --dy: -190px; --r: -480deg; --d: 200ms; }
+.mq-confetti > i:nth-child(10n+5) { --x: 46; --y: 18; --dx: -10px;  --dy: -130px; --r: 380deg;  --d: 30ms; }
+.mq-confetti > i:nth-child(10n+6) { --x: 56; --y: 36; --dx: 20px;   --dy: -180px; --r: -420deg; --d: 160ms; }
+.mq-confetti > i:nth-child(10n+7) { --x: 66; --y: 10; --dx: 50px;   --dy: -100px; --r: 460deg;  --d: 90ms; }
+.mq-confetti > i:nth-child(10n+8) { --x: 76; --y: 28; --dx: 90px;   --dy: -160px; --r: -380deg; --d: 20ms; }
+.mq-confetti > i:nth-child(10n+9) { --x: 86; --y: 40; --dx: 130px;  --dy: -120px; --r: 500deg;  --d: 140ms; }
+.mq-confetti > i:nth-child(10n)   { --x: 94; --y: 22; --dx: 160px;  --dy: -150px; --r: -440deg; --d: 70ms; }
+/* 第 2–4 批：稍微錯開位置與時間，看起來不會重複 */
+.mq-confetti > i:nth-child(n+11) { --x2: -3; --d2: 300ms; }
+.mq-confetti > i:nth-child(n+21) { --x2: 2;  --d2: 650ms; }
+.mq-confetti > i:nth-child(n+31) { --x2: -1; --d2: 1000ms; }
+
+@keyframes mq-confetti-fall {
+  0%   { transform: translate(0, 0) rotate(0); opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translate(calc(var(--dx) * .5), 110vh) rotate(var(--r)); opacity: 0; }
+}
+@keyframes mq-confetti-burst {
+  0%   { transform: translate(-50%, -50%) scale(.4); opacity: 1; }
+  40%  { transform: translate(var(--dx), var(--dy)) rotate(calc(var(--r) * .5)) scale(1); opacity: 1; }
+  100% { transform: translate(calc(var(--dx) * 1.25), calc(var(--dy) + 150px)) rotate(var(--r)); opacity: 0; }
+}
+
+/* 16.5 減少動態效果：全部改成「淡入的靜態圖」，資訊不少（徽章、星星數、彩帶都看得到），只是不會動 */
+@keyframes mq-static-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes mq-static-life { 0% { opacity: 0 } 15% { opacity: 1 } 85% { opacity: 1 } 100% { opacity: 0 } }
+@media (prefers-reduced-motion: reduce) {
+  .mq-app .mq-flystar { display: none; }    /* 不飛，星星數直接更新 */
+  .mq-app .mq-stat.is-bump { animation: mq-static-in 400ms ease-out both !important; background: var(--mq-sun-soft); }
+  .mq-app .mq-stat.is-bump svg { animation: none !important; }
+  .mq-app .mq-confetti > i {
+    animation: mq-static-in 400ms ease-out both !important;
+    top: calc(var(--y) * 1%); transform: rotate(var(--r));
+  }
+  .mq-app .mq-confetti--small > i { top: 50%; transform: translate(var(--dx), var(--dy)) rotate(var(--r)); }
+  .mq-app .mq-streak-badge { animation: mq-static-life var(--mq-dur-streak) ease-out both !important; }
+  .mq-app .mq-bigcheer { animation: mq-static-life var(--mq-dur-bigcheer) ease-out both !important; }
+  .mq-app .mq-highfive__art--ready, .mq-app .mq-highfive__prompt { animation: none !important; }
+  .mq-app .mq-highfive.is-clapped .mq-highfive__art--clap { animation: mq-static-in 300ms ease-out both !important; }
+  .mq-app .mq-highfive__btn::after { display: none; }
+  .mq-app .mq-highfive.is-clapped .mq-highfive__burst > i {
+    animation: mq-static-in 300ms ease-out both !important;
+    transform: translate(calc(-50% + var(--dx) * .8), calc(-50% + var(--dy) * .8));
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. 換裝夥伴（v1）：pal-render.js 產生的 <svg class="mq-pal">，規格見 ui-spec.md 第 14 節
+   -------------------------------------------------------------------------- */
+.mq-pal { display: block; width: 100%; height: auto; overflow: visible; }
+.mq-mascot.mq-pal { width: 160px; }
+
+/* --------------------------------------------------------------------------
+   18. 燈塔守護者「霧燈精」、霧氣條、每日包裹（v1 第 3 批），規格見 ui-spec.md 第 14.9 節
+   -------------------------------------------------------------------------- */
+/* 霧燈精：<svg class="mq-fog mq-fog--g6-ratio" viewBox="0 0 200 200"><use href="assets/boss/fog.svg#fog-normal"/><use href="assets/boss/fog.svg#emblem-g6-ratio"/></svg>
+   顏色由 CSS 變數決定（會傳進 <use> 裡面）；不想用 <use> 時，也可以直接用已上色的 boss/fog-{單元}-{表情}.svg */
+.mq-fog { display: block; width: 180px; height: auto; overflow: visible; transform-origin: 50% 70%;
+  --fog-body: #E6EDF6; --fog-shade: #C9D6E6; --fog-cheek: #FFB8A3; }
+.mq-fog--g6-rate-percent      { --fog-body: #FFE1D6; --fog-shade: #F6C6B6; }
+.mq-fog--g6-fraction-division { --fog-body: #D3F2E1; --fog-shade: #ABDFC3; }
+.mq-fog--g6-ratio             { --fog-body: #F4E0F6; --fog-shade: #E2C2E6; }
+.mq-fog--g6-two-quantity      { --fog-body: #D9EEFC; --fog-shade: #B5DAF4; }
+.mq-fog--g6-circumference     { --fog-body: #FFF2C6; --fog-shade: #F2DD94; }
+.mq-fog--g6-problem-solving   { --fog-body: #E5DFFB; --fog-shade: #CBC1F1; }
+.mq-fog.is-idle  { animation: mq-fog-float 3s var(--mq-ease-in-out) infinite; }
+.mq-fog.is-spin  { animation: mq-fog-spin 700ms var(--mq-ease-out); }      /* 第一次就答對：被吹得轉一圈 */
+.mq-fog.is-puff  { animation: mq-fog-puff 500ms var(--mq-ease-bounce); }   /* 看提示後答對：被吹得縮一下 */
+.mq-fog.is-funny { animation: mq-fog-wiggle 600ms var(--mq-ease-in-out); }  /* 沒答對：做鬼臉、扭一扭 */
+@keyframes mq-fog-float  { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-8px) } }
+@keyframes mq-fog-spin   { from { transform: rotate(0) scale(1) } 50% { transform: rotate(200deg) scale(.85) } to { transform: rotate(360deg) scale(1) } }
+@keyframes mq-fog-puff   { 0% { transform: scale(1) } 40% { transform: scale(.85, 1.1) } 100% { transform: scale(1) } }
+@keyframes mq-fog-wiggle { 0%, 100% { transform: rotate(0) } 25% { transform: rotate(-6deg) } 75% { transform: rotate(6deg) } }
+
+/* 霧氣條（不是血條，也不用紅色）：<div class="mq-fogbar" role="meter" aria-valuemin="0" aria-valuemax="60" aria-valuenow="45" aria-label="霧氣">
+     <span class="mq-fogbar__label">霧氣</span><span class="mq-fogbar__track"><span class="mq-fogbar__fill"></span></span><span class="mq-fogbar__num">45</span></div>
+   JS 設定 --fog（0–1，剩下的霧氣比例）。霧氣越少，燈越亮。 */
+.mq-fogbar { --fog: 1; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--mq-sp-3);
+  font-weight: 800; font-size: var(--mq-fs-md); }
+.mq-fogbar__track { position: relative; height: 24px; border-radius: var(--mq-r-pill); overflow: hidden;
+  background: linear-gradient(90deg, #FFF4D6, #FFE58A); border: 3px solid var(--mq-line-strong); }
+.mq-fogbar__fill { position: absolute; inset: 0 0 0 auto; width: calc(var(--fog) * 100%);
+  background: repeating-linear-gradient(115deg, #C9D0DC 0 14px, #DCE1EA 14px 28px);
+  border-radius: var(--mq-r-pill) 0 0 var(--mq-r-pill); transition: width 600ms var(--mq-ease-out); }
+.mq-fogbar__num { font-family: var(--mq-font-num); min-width: 2.5ch; text-align: right; }
+.mq-fogbar.is-hit .mq-fogbar__track { animation: mq-bump 450ms var(--mq-ease-bounce); }
+
+/* 燈塔被霧氣罩住（熟悉、可以挑戰守護者）：在島嶼插圖上疊 islands/fog-cover-{a,b,c}.svg */
+.mq-island__fog { position: absolute; left: 50%; top: 0; width: 96px; height: 72px; transform: translateX(-50%); pointer-events: none;
+  animation: mq-fog-float 4s var(--mq-ease-in-out) infinite; }
+/* 精熟：點亮後再加一圈金色光環 */
+.mq-island.is-mastered .mq-island__art { filter: drop-shadow(0 0 6px var(--mq-sun)) drop-shadow(0 0 2px var(--mq-sun)); }
+
+/* 每日包裹：<button class="mq-package"><img class="mq-package__art mq-package__art--closed" src="assets/package/package-closed.svg" alt="">
+     <img class="mq-package__art mq-package__art--open" src="assets/package/package-open.svg" alt=""></button>
+   點下去 → 加 .is-opening（搖一搖 0.6 秒、蓋子彈開 0.4 秒，共約 1.5 秒）→ animationend 後顯示內容 */
+.mq-package { -webkit-appearance: none; appearance: none; position: relative; display: block; width: 110px; aspect-ratio: 120 / 110;
+  padding: 0; border: 0; background: none; cursor: pointer; touch-action: manipulation; }
+.mq-package__art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.mq-package__art--open { opacity: 0; }
+.mq-package.is-waiting .mq-package__art--closed { animation: mq-pkg-hop 2.4s var(--mq-ease-in-out) infinite; transform-origin: 50% 100%; }
+.mq-package.is-opening .mq-package__art--closed { animation: mq-pkg-shake 600ms var(--mq-ease-in-out) 2 forwards, mq-pkg-hide 1ms linear 1200ms forwards; transform-origin: 50% 100%; }
+.mq-package.is-opening .mq-package__art--open { animation: mq-pkg-pop 400ms var(--mq-ease-bounce) 1200ms both; transform-origin: 50% 100%; }
+.mq-package.is-opened .mq-package__art--closed { opacity: 0; }
+.mq-package.is-opened .mq-package__art--open { opacity: 1; }
+@keyframes mq-pkg-hop   { 0%, 80%, 100% { transform: none } 88% { transform: translateY(-8px) } 94% { transform: translateY(0) scale(1.04, .96) } }
+@keyframes mq-pkg-shake { 0%, 100% { transform: rotate(0) } 25% { transform: rotate(-8deg) } 75% { transform: rotate(8deg) } }
+@keyframes mq-pkg-hide  { to { opacity: 0 } }
+@keyframes mq-pkg-pop   { 0% { opacity: 0; transform: scale(.8) } 60% { opacity: 1; transform: scale(1.12) } 100% { opacity: 1; transform: scale(1) } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mq-app .mq-fog, .mq-app .mq-island__fog, .mq-app .mq-package.is-waiting .mq-package__art--closed { animation: none !important; }
+  .mq-app .mq-package.is-opening .mq-package__art--closed { animation: mq-pkg-hide 300ms ease-out both !important; }
+  .mq-app .mq-package.is-opening .mq-package__art--open { animation: mq-static-in 300ms ease-out 300ms both !important; }
+}
+
+/* --------------------------------------------------------------------------
+   19. 動物朋友圖鑑、商店、「下一個目標」（v1 第 4 批），規格見 ui-spec.md 第 14.10 節
+   圖示：<svg class="mq-icon"><use href="assets/icons/ui-icons.svg#ic-star-coin"/></svg>
+   -------------------------------------------------------------------------- */
+.mq-icon { display: inline-block; width: 28px; height: 28px; flex: none; vertical-align: middle; }
+.mq-icon--lg { width: 48px; height: 48px; }
+
+/* 19.1 朋友圖鑑卡：.mq-friendcard + .is-unknown（剪影＋？？？）／.is-waiting（還在等你幫忙）／.is-joined（完整卡片） */
+.mq-friendcard {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-2);
+  padding: var(--mq-sp-4) var(--mq-sp-3) var(--mq-sp-3); min-height: 220px; text-align: center;
+  background: var(--mq-surface); border-radius: var(--mq-r-xl); box-shadow: var(--mq-shadow-sm);
+  border: 4px solid var(--mq-primary-soft);
+}
+.mq-friendcard__art { width: 120px; height: 120px; }
+.mq-friendcard__name { margin: 0; font-size: var(--mq-fs-lg); font-weight: 900; }
+.mq-friendcard__meta { margin: 0; font-size: var(--mq-fs-sm); color: var(--mq-ink-muted); }
+.mq-friendcard__ribbon {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  padding: 2px var(--mq-sp-3); border-radius: var(--mq-r-pill); white-space: nowrap;
+  font-size: var(--mq-fs-sm); font-weight: 800; background: var(--mq-peach-soft); color: var(--mq-peach-text);
+}
+.mq-friendcard.is-unknown { background: #F2F4F8; border-color: transparent; box-shadow: none; }
+.mq-friendcard.is-unknown .mq-friendcard__art { filter: brightness(0) opacity(.16); }   /* 剪影 */
+.mq-friendcard.is-unknown .mq-friendcard__name { color: var(--mq-ink-muted); letter-spacing: .2em; }
+.mq-friendcard.is-waiting { border-color: var(--mq-peach); }
+.mq-friendcard.is-joined { border-color: var(--mq-sun); background: linear-gradient(180deg, var(--mq-sun-soft), var(--mq-surface) 60%); }
+.mq-friendcard.is-joined .mq-friendcard__ribbon { background: var(--mq-sun); color: var(--mq-on-sun); }
+/* ♥ 進度：<span class="mq-hearts" aria-label="3 顆心裡有 1 顆"><i class="is-on"></i><i></i><i></i></span> */
+.mq-hearts { display: inline-flex; gap: 4px; }
+.mq-hearts > i {
+  width: 22px; height: 20px; background: #D7DDE8;
+  clip-path: path("M11 19 C3 13 0 8.5 2.5 4.5 C5 1 9 1.5 11 5 C13 1.5 17 1 19.5 4.5 C22 8.5 19 13 11 19 Z");
+}
+.mq-hearts > i.is-on { background: #FF8FA3; }
+.mq-hearts > i.is-new { animation: mq-star-pop var(--mq-dur-slow) var(--mq-ease-bounce); }
+
+/* 對話泡泡（朋友說話；共用 .mq-bubble，加上名字標籤） */
+.mq-talk { display: grid; grid-template-columns: 96px 1fr; gap: var(--mq-sp-3); align-items: end; }
+.mq-talk__art { width: 96px; height: 96px; }
+.mq-talk .mq-bubble::after { left: -10px; bottom: 18px; border: 10px solid transparent; border-right-color: var(--mq-surface); border-left: 0; }
+.mq-talk__who { display: block; font-size: var(--mq-fs-sm); font-weight: 800; color: var(--mq-primary-text); }
+
+/* 19.2 商店 */
+/* 錢包：沿用 .mq-stat，圖示換成 #ic-star-coin */
+.mq-price { display: inline-flex; align-items: center; gap: 4px; font-family: var(--mq-font-num); font-weight: 800; font-size: var(--mq-fs-md); }
+.mq-price .mq-icon { width: 24px; height: 24px; }
+.mq-shop__tabs .mq-tab { display: inline-flex; align-items: center; gap: var(--mq-sp-2); }
+.mq-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--mq-gap-touch); }
+.mq-product {
+  -webkit-appearance: none; appearance: none; position: relative;
+  display: flex; flex-direction: column; align-items: center; gap: var(--mq-sp-1);
+  min-height: 170px; padding: var(--mq-sp-3); cursor: pointer; touch-action: manipulation;
+  background: var(--mq-surface); border: 3px solid var(--mq-line-strong); border-radius: var(--mq-r-lg);
+  box-shadow: 0 4px 0 var(--mq-line); text-align: center; font: inherit; color: var(--mq-ink);
+}
+.mq-product__art { width: 96px; height: 80px; object-fit: contain; }
+.mq-product__name { font-size: var(--mq-fs-sm); font-weight: 800; line-height: 1.3; }
+.mq-product.is-trying { border-color: var(--mq-primary); background: var(--mq-primary-soft); box-shadow: 0 4px 0 var(--mq-primary); }
+.mq-product.is-owned::after, .mq-product.is-wearing::after {
+  position: absolute; top: -10px; right: -8px; padding: 0 8px; border-radius: var(--mq-r-pill);
+  font-size: var(--mq-fs-xs); font-weight: 800; line-height: 24px;
+}
+.mq-product.is-owned::after { content: "已擁有"; background: var(--mq-good-soft); color: var(--mq-good-text); border: 2px solid var(--mq-good); }
+.mq-product.is-wearing::after { content: "穿著中"; background: var(--mq-primary); color: #fff; }
+.mq-product.is-short .mq-price { color: var(--mq-ink-muted); }   /* 星星還不夠：只是變淡，不寫「不夠」 */
+
+/* 試穿框：圓圓方方預覽外的虛線框＋「試穿中」標籤 */
+.mq-tryon {
+  position: relative; padding: var(--mq-sp-4); border-radius: var(--mq-r-xl);
+  border: 4px dashed var(--mq-sun); background: var(--mq-sun-soft);
+}
+.mq-tryon__tag {
+  position: absolute; top: -16px; left: var(--mq-sp-4); display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px var(--mq-sp-3); border-radius: var(--mq-r-pill); background: var(--mq-sun); color: var(--mq-on-sun);
+  font-size: var(--mq-fs-sm); font-weight: 900;
+}
+.mq-tryon__tag .mq-icon { width: 20px; height: 20px; }
+/* 買下（暖陽大按鈕，內含價格）與退回（當天可退） */
+.mq-btn--buy { background: var(--mq-sun); color: var(--mq-on-sun); box-shadow: 0 4px 0 #D9A21E; min-width: 180px; }
+.mq-btn--buy .mq-icon { width: 28px; height: 28px; }
+.mq-btn--refund { background: var(--mq-surface); color: var(--mq-primary-text); border-color: var(--mq-line-strong); }
+
+/* 19.3 首頁「下一個目標」：1 個大的＋2 個小的；整張卡是按鈕，點了直接帶到對應的地方 */
+.mq-goals { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mq-gap-touch); }
+.mq-goal {
+  -webkit-appearance: none; appearance: none;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--mq-sp-3);
+  min-height: 72px; padding: var(--mq-sp-3) var(--mq-sp-4); cursor: pointer; text-align: left;
+  font: inherit; color: var(--mq-ink); font-size: var(--mq-fs-md); font-weight: 700; line-height: 1.35;
+  background: var(--mq-surface); border: 3px solid var(--mq-primary-soft); border-radius: var(--mq-r-lg); box-shadow: var(--mq-shadow-sm);
+}
+.mq-goal::after { content: "›"; font-size: var(--mq-fs-2xl); color: var(--mq-primary-text); line-height: 1; }
+.mq-goal__icon { width: 44px; height: 44px; padding: 6px; border-radius: 50%; background: var(--mq-primary-soft); }
+.mq-goal__body { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.mq-goal .mq-meter { height: 10px; }
+.mq-goal--main { grid-column: 1 / -1; min-height: 96px; font-size: var(--mq-fs-lg); font-weight: 800; border-color: var(--mq-sun); background: var(--mq-sun-soft); }
+.mq-goal--main .mq-goal__icon { width: 60px; height: 60px; background: #fff; }
+.mq-goal--shop .mq-goal__icon { background: var(--mq-peach-soft); }
+.mq-goal--boss .mq-goal__icon { background: #EEF2F8; }
+.mq-goal--growth .mq-goal__icon { background: var(--mq-good-soft); }
+.mq-goal--badge .mq-goal__icon { background: var(--mq-primary-soft); }
+.mq-goal.is-ready { border-color: var(--mq-good); }
+.mq-goal.is-ready .mq-goal__icon { animation: mq-hf-prompt 1.4s var(--mq-ease-in-out) infinite; }
+@media (max-width: 599px) { .mq-goals { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .mq-app .mq-goal.is-ready .mq-goal__icon { animation: none !important; } }

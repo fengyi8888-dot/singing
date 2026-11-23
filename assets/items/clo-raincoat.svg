@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -24 340 270" role="img" aria-labelledby="t d">
+<title id="t">商品：黃色小雨衣</title>
+<desc id="d">換裝商品，畫在第 4 階 cheer 姿勢的座標上；每隻夥伴一個群組。</desc>
+<ellipse cx="170" cy="228" rx="120" ry="9" fill="#1F2A44" opacity=".08"/>
+<g id="yuan"><path d="M74,156 Q110,172 146,156 C158,180 160,204 150,212 L70,212 C60,204 62,180 74,156 Z" fill="#FFD54A" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><path d="M110,172 L110,212" stroke="#C99A00" stroke-width="3" stroke-linecap="round"/><rect x="103" y="184" width="14" height="5" rx="2.5" fill="#C98A58" stroke="#3A2E2A" stroke-width="2"/><rect x="103" y="198" width="14" height="5" rx="2.5" fill="#C98A58" stroke="#3A2E2A" stroke-width="2"/><path d="M80,198 q8,6 16,0 M124,198 q8,6 16,0" fill="none" stroke="#C99A00" stroke-width="3" stroke-linecap="round"/></g>
+<g id="fang"><path d="M188,154 Q230,170 272,154 L274,208 Q274,213 268,213 L192,213 Q186,213 186,208 Z" fill="#FFD54A" stroke="#3A2E2A" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/><path d="M230,170 L230,213" stroke="#C99A00" stroke-width="3" stroke-linecap="round"/><rect x="223" y="184" width="14" height="5" rx="2.5" fill="#C98A58" stroke="#3A2E2A" stroke-width="2"/><rect x="223" y="198" width="14" height="5" rx="2.5" fill="#C98A58" stroke="#3A2E2A" stroke-width="2"/><path d="M200,199 q8,6 16,0 M244,199 q8,6 16,0" fill="none" stroke="#C99A00" stroke-width="3" stroke-linecap="round"/></g>
+</svg>

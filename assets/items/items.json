@@ -1,0 +1,146 @@
+{
+ "version": 1,
+ "items": {
+  "acc-scarf-sky": {
+   "name": "天空藍小領巾",
+   "slot": "accessory",
+   "parts": [
+    {
+     "layer": "accessory",
+     "anchor": "neck",
+     "href": "assets/items/acc-scarf-sky.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "hat-knit-red": {
+   "name": "毛線小紅帽",
+   "slot": "hat",
+   "parts": [
+    {
+     "layer": "hat",
+     "anchor": "head",
+     "href": "assets/items/hat-knit-red.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "acc-glasses-round": {
+   "name": "圓框眼鏡",
+   "slot": "accessory",
+   "parts": [
+    {
+     "layer": "hat",
+     "anchor": "head",
+     "href": "assets/items/acc-glasses-round.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "clo-vest-stripe": {
+   "name": "條紋小背心",
+   "slot": "clothes",
+   "parts": [
+    {
+     "layer": "clothes",
+     "anchor": "body",
+     "href": "assets/items/clo-vest-stripe.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "hat-sun-dot": {
+   "name": "圓點遮陽帽",
+   "slot": "hat",
+   "parts": [
+    {
+     "layer": "hat",
+     "anchor": "head",
+     "href": "assets/items/hat-sun-dot.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "acc-backpack": {
+   "name": "探險小書包",
+   "slot": "accessory",
+   "parts": [
+    {
+     "layer": "back",
+     "anchor": "body",
+     "href": "assets/items/acc-backpack.svg",
+     "idPrefix": "back-"
+    },
+    {
+     "layer": "accessory",
+     "anchor": "body",
+     "href": "assets/items/acc-backpack.svg",
+     "idPrefix": "front-"
+    }
+   ]
+  },
+  "clo-raincoat": {
+   "name": "黃色小雨衣",
+   "slot": "clothes",
+   "parts": [
+    {
+     "layer": "clothes",
+     "anchor": "body",
+     "href": "assets/items/clo-raincoat.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "clo-overalls": {
+   "name": "格子吊帶褲",
+   "slot": "clothes",
+   "parts": [
+    {
+     "layer": "clothes",
+     "anchor": "body",
+     "href": "assets/items/clo-overalls.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "hat-sailor": {
+   "name": "燈塔水手帽",
+   "slot": "hat",
+   "parts": [
+    {
+     "layer": "hat",
+     "anchor": "head",
+     "href": "assets/items/hat-sailor.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "acc-pinecone-necklace": {
+   "name": "啾啾的松果項鍊",
+   "slot": "accessory",
+   "parts": [
+    {
+     "layer": "accessory",
+     "anchor": "neck",
+     "href": "assets/items/acc-pinecone-necklace.svg",
+     "idPrefix": ""
+    }
+   ]
+  },
+  "fur-mat-grid": {
+   "name": "方格小地墊",
+   "slot": "furniture",
+   "href": "assets/items/fur-mat-grid.svg"
+  },
+  "fur-pillow-round": {
+   "name": "圓圓抱枕",
+   "slot": "furniture",
+   "href": "assets/items/fur-pillow-round.svg"
+  },
+  "wal-grid-blue": {
+   "name": "淡藍格子壁紙",
+   "slot": "wallpaper",
+   "href": "assets/items/wal-grid-blue.svg"
+  }
+ }
+}

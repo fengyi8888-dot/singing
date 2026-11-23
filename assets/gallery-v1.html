@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'">
+<title>遊戲性加強 v1 美術總覽（給 Iris / Forge）</title>
+<link rel="stylesheet" href="theme.css">
+</head>
+<body class="mq-app">
+<div class="mq-screen"><main class="mq-main" id="main">
+  <h1 class="mq-title">遊戲性加強 v1 美術總覽</h1>
+
+  <h2>下一個目標</h2>
+  <div class="mq-goals" id="goals">
+    <button class="mq-goal mq-goal--main mq-goal--shop" type="button"><svg class="mq-goal__icon"><use href="icons/ui-icons.svg#ic-goal-shop"/></svg><span class="mq-goal__body">再 3 顆星就能買「毛線小紅帽」<span class="mq-meter mq-meter--sun" id="goal-meter"><span></span></span></span></button>
+    <button class="mq-goal mq-goal--growth" type="button"><svg class="mq-goal__icon"><use href="icons/ui-icons.svg#ic-goal-growth"/></svg><span class="mq-goal__body">圓圓和方方再 2 關就長大</span></button>
+    <button class="mq-goal mq-goal--boss is-ready" type="button"><svg class="mq-goal__icon"><use href="icons/ui-icons.svg#ic-goal-boss"/></svg><span class="mq-goal__body">可以挑戰兩量關係島的霧燈精了！</span></button>
+  </div>
+
+  <h2>商店</h2>
+  <div class="mq-row"><span class="mq-stat"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-star-coin"/></svg><span class="mq-num">12</span></span></div>
+  <div class="mq-tabs mq-shop__tabs" role="tablist">
+    <button class="mq-tab is-active" role="tab" aria-selected="true"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-hat"/></svg>帽子</button>
+    <button class="mq-tab" role="tab" aria-selected="false"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-clothes"/></svg>衣服</button>
+    <button class="mq-tab" role="tab" aria-selected="false"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-accessory"/></svg>配件</button>
+    <button class="mq-tab" role="tab" aria-selected="false"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-furniture"/></svg>家具</button>
+    <button class="mq-tab" role="tab" aria-selected="false"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-wallpaper"/></svg>壁紙地板</button>
+  </div>
+  <div class="mq-tryon"><span class="mq-tryon__tag"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-tryon"/></svg>試穿中</span><div id="tryon"></div></div>
+  <div class="mq-row">
+    <button class="mq-btn mq-btn--buy" type="button"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-star-coin"/></svg>買下 15</button>
+    <button class="mq-btn mq-btn--refund" type="button"><svg class="mq-icon"><use href="icons/ui-icons.svg#ic-refund"/></svg>退回</button>
+  </div>
+  <div class="mq-products" id="products"></div>
+
+  <h2>小屋</h2>
+  <div class="mq-card" id="hut"></div>
+
+  <h2>霧燈精（同一個造型 × 6 種島色）與霧氣條</h2>
+  <div class="mq-grid" id="fogs"></div>
+  <div class="mq-fogbar" id="fogbar" role="meter" aria-valuemin="0" aria-valuemax="60" aria-valuenow="45" aria-label="霧氣">
+    <span class="mq-fogbar__label">霧氣</span><span class="mq-fogbar__track"><span class="mq-fogbar__fill"></span></span><span class="mq-fogbar__num">45</span>
+  </div>
+
+  <h2>每日包裹</h2>
+  <div class="mq-row">
+    <button class="mq-package is-waiting" id="pkg" type="button" aria-label="打開包裹">
+      <img class="mq-package__art mq-package__art--closed" src="package/package-closed.svg" alt="">
+      <img class="mq-package__art mq-package__art--open" src="package/package-open.svg" alt="">
+    </button>
+    <img src="ornaments/pkg-plant.svg" alt="小盆栽" class="mq-icon mq-icon--lg"><img src="ornaments/pkg-shell.svg" alt="貝殼" class="mq-icon mq-icon--lg"><img src="ornaments/rare-lighthouse-model.svg" alt="燈塔小模型" class="mq-icon mq-icon--lg">
+  </div>
+
+  <h2>動物朋友</h2>
+  <div class="mq-grid" id="friends"></div>
+  <div class="mq-talk"><img class="mq-talk__art" src="friends/chiuchiu-worried.svg" alt=""><p class="mq-bubble"><span class="mq-talk__who">啾啾</span>我一直搞不清楚誰是「基準量」，你可以陪我一起找嗎？</p></div>
+</main></div>
+<script type="module" src="gallery-v1.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -24 340 270" role="img" aria-labelledby="t d">
+<title id="t">商品：圓框眼鏡</title>
+<desc id="d">換裝商品，畫在第 4 階 cheer 姿勢的座標上；每隻夥伴一個群組。</desc>
+<ellipse cx="170" cy="228" rx="120" ry="9" fill="#1F2A44" opacity=".08"/>
+<g id="yuan"><circle cx="90" cy="99" r="14" fill="#EAF6FF" fill-opacity=".35" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><circle cx="130" cy="99" r="14" fill="#EAF6FF" fill-opacity=".35" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><path d="M104,97 Q110.0,91 116,97" fill="none" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><path d="M76,97 L66,94 M144,97 L154,94" fill="none" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><path d="M83,93 A8,8 0 0 1 89,89 M123,93 A8,8 0 0 1 129,89" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></g>
+<g id="fang"><circle cx="211" cy="96" r="14" fill="#EAF6FF" fill-opacity=".35" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><circle cx="249" cy="96" r="14" fill="#EAF6FF" fill-opacity=".35" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><path d="M225,94 Q230.0,88 235,94" fill="none" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><path d="M197,94 L186,91 M263,94 L274,91" fill="none" stroke="#155FA6" stroke-width="4" stroke-linecap="round"/><path d="M204,90 A8,8 0 0 1 210,86 M242,90 A8,8 0 0 1 248,86" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></g>
+</svg>
