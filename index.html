@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="數字群島">
+  <meta name="theme-color" content="#1769AA">
+  <!-- 不載入任何外部腳本、字型或分析服務；所有資料只存在這台裝置 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>數字群島（暫名）</title>
+  <!-- 1) 備援樣式：theme.css 不存在時也能用 -->
+  <link rel="stylesheet" href="css/base.css">
+  <!-- 2) Pixel 的設計系統（放在後面，會覆蓋備援樣式） -->
+  <link rel="stylesheet" href="assets/theme.css">
+  <!-- 3) 對 theme.css 的修正與新元件版面（放最後） -->
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body class="mq-app">
+  <!-- 共用圖示（Pixel theme-demo／celebrate-demo 的原創 symbol） -->
+  <svg width="0" height="0" class="mq-visually-hidden" aria-hidden="true">
+    <symbol id="i-star" viewBox="0 0 32 32"><path d="M16 3l4 8.2 9 1.3-6.5 6.3 1.5 9L16 23.6 8 27.8l1.5-9L3 12.5l9-1.3z" fill="currentColor" stroke="#9A5B00" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  </svg>
+  <div id="app">
+    <p class="mq-note">載入中…</p>
+  </div>
+  <noscript>這個網站需要開啟 JavaScript。</noscript>
+</body>
+</html>

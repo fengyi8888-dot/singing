@@ -1,0 +1,72 @@
+/* app.css：載入順序 base.css → assets/theme.css → app.css。
+   只放 Pixel 尚未定義的新元件版面，不改 Pixel 的設計代幣。
+   （按鈕顏色補丁已移除：Pixel 已把 reset 改成 :where(.mq-app) button。） */
+
+/* 地圖：高度由 JS 依島嶼數量設定；島嶼座標用 left/top（JS 以 CSSOM 設定，符合 CSP） */
+.mq-map { width: 100%; }
+.mq-island__state { background: rgba(255, 255, 255, .85); border-radius: 999px; padding: 0 8px; }
+.mq-sheet__body { display: grid; grid-template-columns: 96px 1fr; gap: 16px; align-items: center; }
+.mq-sheet__body img { width: 96px; height: auto; }
+.mq-sheet__actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 16px; flex-wrap: wrap; }
+
+/* 首頁 */
+.mq-home__pal { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.mq-home__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 599px) { .mq-home__cards { grid-template-columns: 1fr; } }
+.mq-home__cards .mq-card--tap { min-height: 120px; justify-content: center; align-items: center; text-align: center; font-weight: 800; }
+.mq-corner { display: flex; justify-content: flex-end; gap: 12px; align-items: center; }
+.mq-today { display: flex; align-items: center; gap: 16px; }
+
+/* 關卡：吉祥物在題目卡角落、草稿區、讀題小幫手 */
+.mq-question { position: relative; }
+.mq-question.has-mascot { padding-bottom: 92px; }
+.mq-question .mq-mascot--sm { position: absolute; right: 12px; bottom: 6px; pointer-events: none; opacity: .95; }
+.mq-question .mq-speak { white-space: nowrap; }
+.mq-seg:disabled { cursor: default; }
+.mq-question__text { padding-right: 8px; }
+.mq-scratch {
+  min-height: 96px; border: 2px dashed var(--mq-line, #B4BCCC); border-radius: 16px;
+  display: flex; align-items: center; justify-content: center; color: var(--mq-ink-muted, #4A5672);
+  background: repeating-linear-gradient(0deg, #fff, #fff 31px, #EEF2F7 32px);
+}
+.mq-helper__prompt { margin: 8px 0 0; }
+.mq-helper__opts { margin-top: 8px; }
+.mq-ratio-pair { display: flex; align-items: center; gap: 12px; }
+.mq-ratio-pair > .mq-answer { flex: 1; }
+.mq-ratio-pair__colon { font-size: 36px; font-weight: 900; }
+.mq-multi { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.mq-feedback .mq-mascot { width: 88px; }
+
+/* 診斷：點亮燈塔 */
+.mq-lamps { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.mq-lamp { width: 22px; height: 22px; border-radius: 50%; background: #DDE3EC; border: 2px solid #B4BCCC; }
+.mq-lamp.is-on { background: var(--mq-sun, #FFC845); border-color: var(--mq-sun-text, #9A5B00); box-shadow: 0 0 10px var(--mq-sun, #FFC845); }
+
+/* 結算 */
+.mq-result__mascot { width: 220px; }
+.mq-overlay .mq-card { color: var(--mq-ink); }
+
+/* 家長區 */
+.mq-pin-pad { max-width: 360px; margin: 0 auto; grid-template-columns: repeat(3, 1fr); }
+.mq-bars { display: flex; gap: 8px; align-items: flex-end; height: 120px; }
+.mq-bars > span { flex: 1; background: var(--mq-primary, #1769AA); border-radius: 6px 6px 0 0; min-height: 2px; height: calc(var(--v, 0) * 100%); }
+.mq-bars__labels { display: flex; gap: 8px; font-size: 13px; }
+.mq-bars__labels > span { flex: 1; text-align: center; }
+.mq-ipad-steps li { margin: 8px 0; }
+@media print { .mq-noprint, .mq-topbar, .mq-btn { display: none !important; } .mq-card { box-shadow: none; border: 1px solid #999; } }
+
+/* 答對時刻：動畫與擊掌元件用 Pixel 的 theme.css 第 16 節；這裡只放版面 */
+.mq-correct-moment { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.mq-correct-moment .mq-feedback { width: 100%; grid-template-columns: 1fr; }   /* 吉祥物移到下方的擊掌元件，面板只剩文字 */
+.mq-result__summary { max-width: 480px; }
+
+/* 底部操作列固定在畫面底部：慶祝內容變高時「下一題」也一定完整可見（820×1180、1180×820） */
+.mq-stage__actions {
+  position: sticky; bottom: 0; z-index: 30;
+  background: var(--mq-bg, #F4F8FB);
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  box-shadow: 0 -6px 12px -8px rgba(31, 42, 68, .18);
+}
+@media (min-width: 600px) and (max-width: 1023px) and (orientation: portrait) {
+  .mq-stage__pad { bottom: 88px; }     /* 數字鍵盤貼在操作列上方 */
+}

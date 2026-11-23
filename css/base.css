@@ -1,0 +1,110 @@
+/* 備援樣式（陽春版）：assets/theme.css 不存在時也能操作。
+   class 名稱和 Pixel 的 theme.css 一致；theme.css 載入在後面，會覆蓋這裡。 */
+:root { --mq-touch: 56px; --mq-touch-lg: 64px; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "PingFang TC", "Noto Sans TC", sans-serif; background: #F4F8FB; color: #1F2A44; font-size: 18px; -webkit-text-size-adjust: 100%; }
+.mq-screen { min-height: 100vh; display: flex; flex-direction: column; padding: 0 16px 16px; }
+.mq-topbar { display: flex; align-items: center; gap: 12px; padding: 8px 0; flex-wrap: wrap; }
+.mq-title { font-size: 26px; margin: 0; }
+.mq-subtitle { color: #4A5672; margin: 0; }
+.mq-spacer { flex: 1; }
+.mq-main, .mq-stage { width: 100%; max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.mq-stack { display: flex; flex-direction: column; gap: 12px; }
+.mq-row { display: flex; align-items: center; gap: 12px; }
+.mq-wrap { flex-wrap: wrap; }
+.mq-stat { padding: 6px 14px; background: #fff; border-radius: 999px; font-weight: 700; }
+.mq-btn { min-height: var(--mq-touch); min-width: var(--mq-touch); padding: 0 20px; border: 2px solid #7D879C; border-radius: 14px; background: #fff; font-size: 18px; font-weight: 700; cursor: pointer; touch-action: manipulation; color: inherit; display: inline-flex; align-items: center; justify-content: center; }
+.mq-btn--primary { background: #1769AA; color: #fff; border-color: #1769AA; }
+.mq-btn--secondary { color: #1769AA; border-color: #1769AA; }
+.mq-btn--hint { background: #EEEAFB; border-color: #6C4FC2; color: #4B3592; }
+.mq-btn--ghost { border-color: transparent; background: transparent; color: #1769AA; }
+.mq-btn--lg { min-height: 72px; font-size: 22px; }
+.mq-btn--hero { min-height: 100px; width: 100%; font-size: 26px; }
+.mq-btn--block { width: 100%; }
+.mq-btn--small { min-height: 48px; font-size: 16px; }
+.mq-btn:disabled { opacity: .5; cursor: default; }
+.mq-hold { position: relative; }
+.mq-card { background: #fff; border-radius: 20px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.mq-card--flat { box-shadow: none; border: 2px solid #B4BCCC; }
+.mq-card--tap { text-align: left; border: 0; font: inherit; cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+.mq-card__title { font-weight: 800; margin: 0; }
+.mq-card__meta, .mq-note { color: #4A5672; font-size: 15px; margin: 0; }
+.mq-callout { background: #FFF4D6; border-radius: 12px; padding: 10px 14px; margin: 0; }
+.mq-chip { display: inline-block; padding: 4px 12px; border-radius: 999px; background: #E3F1FB; font-size: 15px; font-weight: 700; }
+.is-locked { opacity: .55; }
+.mq-dots { display: flex; gap: 8px; }
+.mq-dot { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #7D879C; background: #fff; }
+.mq-dot.is-current { border-color: #1769AA; }
+.mq-dot.is-done { background: #1769AA; border-color: #1769AA; }
+.mq-dot.is-half { background: linear-gradient(90deg, #1769AA 50%, #fff 50%); border-color: #1769AA; }
+.mq-question { background: #fff; border-radius: 20px; padding: 18px; display: grid; grid-template-columns: 1fr auto; gap: 12px; }
+.mq-question__text { font-size: 22px; line-height: 1.7; margin: 0; }
+.mq-question__figure { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.mq-question__figure svg { width: 100%; max-width: 460px; height: auto; }
+.mq-seg { font: inherit; border: 0; background: transparent; padding: 2px 4px; border-radius: 6px; color: inherit; }
+.mq-seg.is-tappable { text-decoration: underline dotted; cursor: pointer; }
+.mq-seg.is-mark-base { background: #C8F0D2; box-shadow: 0 0 0 2px #1E7F4F inset; text-decoration: none; }
+.mq-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.mq-choices--stack { grid-template-columns: 1fr; }
+.mq-choice { min-height: 72px; border: 3px solid #7D879C; border-radius: 14px; background: #fff; font-size: 20px; font-weight: 700; cursor: pointer; color: inherit; }
+.mq-choice.is-selected { border-color: #1769AA; background: #E3F1FB; }
+.mq-choice.is-correct { border-color: #1E7F4F; background: #E3F6EC; }
+.mq-choice.is-eliminated { opacity: .45; border-style: dashed; }
+.mq-answer { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 80px; background: #fff; border: 3px solid #7D879C; border-radius: 14px; font-size: 28px; font-weight: 800; cursor: pointer; }
+.mq-answer.is-focus { border-color: #1769AA; box-shadow: 0 0 0 4px #E3F1FB; }
+.mq-answer__value:empty::before { content: "？"; color: #B4BCCC; }
+.mq-answer__unit { font-size: 18px; color: #4A5672; }
+.mq-numpad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 10px; background: #E8EEF5; border-radius: 20px; }
+.mq-key { min-height: var(--mq-touch-lg); border: 2px solid #7D879C; border-radius: 12px; background: #fff; font-size: 28px; font-weight: 700; cursor: pointer; touch-action: manipulation; color: inherit; }
+.mq-key--fn { font-size: 17px; background: #F7F9FC; }
+.mq-key--wide { grid-column: span 2; }
+.mq-stage__actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.mq-stage__actions .mq-btn--primary { margin-left: auto; min-width: 160px; }
+.mq-feedback { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 14px 18px; border-radius: 20px; }
+.mq-feedback__mascot:empty { display: none; }
+.mq-feedback__title { margin: 0; font-size: 20px; font-weight: 800; }
+.mq-feedback__body { margin: 0; font-size: 18px; line-height: 1.6; }
+.mq-feedback--retry { background: #EEEAFB; border: 2px solid #6C4FC2; }
+.mq-feedback--solve { background: #fff; border: 2px solid #1769AA; }
+.mq-feedback--correct { background: #E3F6EC; border: 2px solid #1E7F4F; }
+.mq-steps { margin: 8px 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 8px; line-height: 1.6; }
+.mq-scratch { min-height: 96px; border: 2px dashed #B4BCCC; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(0deg, #fff, #fff 31px, #EEF2F7 32px); }
+.mq-table { border-collapse: collapse; font-size: 20px; background: #fff; }
+.mq-table caption { font-weight: 800; padding: 4px; }
+.mq-table th, .mq-table td { border: 2px solid #7D879C; padding: 8px 12px; text-align: center; min-width: 48px; }
+.mq-table td.is-blank { background: #FFF4D6; font-weight: 800; }
+.mq-tables { gap: 16px; }
+.mq-repair { display: flex; gap: 6px; }
+.mq-repair .mq-slot { width: 28px; height: 28px; min-width: 0; min-height: 0; border: 2px solid #7D879C; border-radius: 6px; display: inline-block; }
+.mq-repair .mq-slot.is-filled { background: #FFC845; }
+.mq-island { width: 100%; }
+.mq-island.is-familiar { border-left: 8px solid #FFC845; }
+.mq-island.is-mastered { border-left: 8px solid #1E7F4F; }
+.mq-map { display: flex; flex-direction: column; gap: 12px; }
+.mq-result { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.mq-stars { font-size: 56px; color: #E0A800; margin: 0; letter-spacing: 6px; }
+.mq-toast { position: fixed; left: 50%; top: 16px; transform: translateX(-50%); z-index: 100; background: #fff; border: 3px solid #1769AA; border-radius: 999px; padding: 12px 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(0,0,0,.15); }
+.mq-toast--reward { border-color: #FFC845; background: #FFF4D6; }
+.mq-visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.mq-seg-toggle { display: inline-flex; gap: 4px; background: #E8EEF5; border-radius: 999px; padding: 4px; flex-wrap: wrap; }
+.mq-seg-toggle > button { min-height: 48px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; font: inherit; font-weight: 700; cursor: pointer; color: inherit; }
+.mq-seg-toggle > button[aria-pressed="true"] { background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+pre { white-space: pre-wrap; font-size: 15px; background: #F7F9FC; padding: 8px; border-radius: 8px; }
+/* SVG 圖：theme.css 不存在時的最低樣式 */
+.mqd text { font-size: 20px; font-weight: 700; fill: #1F2A44; }
+.mqd .mqd-unknown { fill: #C2410C; font-size: 24px; }
+.mqd-circle, .mqd-fill { fill: #E3F1FB; stroke: #1F2A44; stroke-width: 3; }
+.mqd-outline { fill: none; stroke: #1F2A44; stroke-width: 3; }
+.mqd-outline.mqd-fill { fill: #E3F1FB; }
+.mqd-sector { fill: #FFF4D6; stroke: #1F2A44; stroke-width: 3; }
+.mqd-center { fill: #1F2A44; }
+.mqd-radius { stroke: #1769AA; stroke-width: 5; }
+.mqd-diameter { stroke: #7B3FC4; stroke-width: 5; }
+.mqd-arc { fill: none; stroke: #C2410C; stroke-width: 6; }
+.mqd-angle { fill: rgba(255, 200, 69, .55); stroke: #9A5B00; stroke-width: 2; }
+.mqd-plain .mqd-radius, .mqd-plain .mqd-diameter, .mqd-plain .mqd-arc { stroke: #1F2A44; stroke-width: 3; }
+.mqd-label--sm { font-size: 16px !important; }
+@media (orientation: landscape) and (min-width: 1000px) {
+  .mq-stage { max-width: 1100px; display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "q work" "q pad" "actions actions"; }
+  .mq-stage__question { grid-area: q; } .mq-stage__work { grid-area: work; } .mq-stage__pad { grid-area: pad; } .mq-stage__actions { grid-area: actions; }
+}
